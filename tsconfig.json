@@ -34,7 +34,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/scenes/Experience1.js"  ],
   "exclude": [
     "node_modules"
   ]
