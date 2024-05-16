@@ -1,5 +1,6 @@
 <template>
   <canvas></canvas>
+  <RouterLink to="/categorie">Retour</RouterLink>
 </template>
 
 <script lang="ts">
@@ -10,7 +11,7 @@ export default defineComponent({
   name: 'BabylonScene',
   
   mounted(){
-    const canvas = document.querySelector('canvas')!;
+    const canvas= document.querySelector('canvas')!;
     new Experience1(canvas);
   }
 });
