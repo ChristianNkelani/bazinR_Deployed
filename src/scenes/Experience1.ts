@@ -10,6 +10,7 @@ export class Experience1 {
     this.engine = new Engine(this.canvas);
     this.scene = this.CreateScene();
     this.importLaboratoire();
+
     this.engine.runRenderLoop(()=>{
       this.scene.render();
     })
@@ -18,10 +19,13 @@ export class Experience1 {
   CreateScene():Scene {
     const scene = new Scene(this.engine);
     
-    const camera = new UniversalCamera("camera", new Vector3(-5.27,8.11,-3), this.scene );
+    const camera = new UniversalCamera("camera", new Vector3(2,3,-2.5), this.scene );
     // camera.rotation._z = -Math.PI/2.06;
     // camera.rotation._x = Math.PI/2.9;
-    camera.rotation._y = Math.PI/1.65;
+    camera.speed = 0.5;
+    camera.rotation._y = Math.PI/2;
+    camera.rotation._x= Math.PI/16;
+
 
     console.log(camera.position.x, camera.position.y, camera.position.z, camera.rotation.x, camera.rotation.y, camera.rotation.z)
     camera.attachControl();
