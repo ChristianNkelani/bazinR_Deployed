@@ -1,5 +1,6 @@
 <template>
   <canvas></canvas>
+  <RouterLink to="/categorie">Retour</RouterLink>
 </template>
 
 <script lang="ts">
@@ -10,7 +11,7 @@ export default defineComponent({
   name: 'BabylonScene',
   
   mounted(){
-    const canvas = document.querySelector('canvas')!;
+    const canvas= document.querySelector('canvas')!;
     new Experience1(canvas);
   }
 });
@@ -19,7 +20,7 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   canvas{
-    width: 100%;
-    height: 100%;
+    width: 30%;
+    height: 30%;
   }
 </style>
