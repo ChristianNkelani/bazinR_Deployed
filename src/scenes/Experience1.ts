@@ -38,7 +38,5 @@ export class Experience1 {
     this.engine.hideLoadingUI();
 
     return labo;
-
-
   }
 }
