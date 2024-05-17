@@ -24,7 +24,7 @@ export class Experience1 {
     // camera.rotation._x = Math.PI/2.9;
     camera.speed = 0.5;
     camera.rotation._y = Math.PI/2;
-    camera.rotation._x= Math.PI/16;
+    camera.rotation._x= Math.PI/14;
 
 
     console.log(camera.position.x, camera.position.y, camera.position.z, camera.rotation.x, camera.rotation.y, camera.rotation.z)
