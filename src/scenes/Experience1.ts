@@ -1,4 +1,13 @@
-import {Scene, Engine, FreeCamera, Vector3, HemisphericLight, MeshBuilder, SceneLoader, UniversalCamera} from "@babylonjs/core";
+import {
+        Scene, 
+        Engine, 
+        Vector3, 
+        HemisphericLight, 
+        MeshBuilder, 
+        SceneLoader,
+        PBRMaterial,
+        Color3,
+        UniversalCamera} from "@babylonjs/core";
 import "@babylonjs/loaders";
 export class Experience1 {
 
@@ -10,6 +19,7 @@ export class Experience1 {
     this.engine = new Engine(this.canvas);
     this.scene = this.CreateScene();
     this.importLaboratoire();
+
 
     this.engine.runRenderLoop(()=>{
       this.scene.render();
@@ -33,6 +43,7 @@ export class Experience1 {
     hemiLight.intensity = 0.5;
 
     // const ground = MeshBuilder.CreateGround("ground",{width:5, height:5});
+
     return scene;
   }
 
@@ -42,5 +53,30 @@ export class Experience1 {
     this.engine.hideLoadingUI();
 
     return labo;
+  }
+
+  // creation de la chambre a vide
+
+  chambreVide(){
+    const box = MeshBuilder.CreateBox(
+      "box", {
+        width : 2.8,
+        height : 5.9,
+        size:5.5
+      }, 
+      this.scene
+    );
+    box.position.x = 6.5;
+    box.position.z = -2.5;
+    const glass = new PBRMaterial("glass", this.scene);
+    glass.alpha = 0.5;
+    glass.directIntensity = 0.0;
+    glass.environmentIntensity = 0.7;
+    glass.cameraExposure = 0.66;
+    glass.cameraContrast = 1.66;
+    glass.microSurface = 1;
+    glass.reflectivityColor = new Color3(0.2, 0.2, 0.2);
+    glass.albedoColor = new Color3(0.95, 0.95, 0.95);
+    box.material = glass
   }
 }
