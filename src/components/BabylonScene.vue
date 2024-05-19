@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Experience1 } from '../scenes/Experience1';
+import { Experience1 } from '../scenes/Experience1/App';
 
 export default defineComponent({
   name: 'BabylonScene',
