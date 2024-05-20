@@ -36,7 +36,7 @@ export class UI{
        
         //create material menu
         const materialMenu = new GUI.StackPanel("stackPanel");
-        materialMenu.width = "500px";
+        materialMenu.width = "90px";
         materialMenu.height = "500px";
         materialMenu.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
         materialMenu.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
@@ -63,18 +63,9 @@ export class UI{
         this.imageMaterial = [];
         this.chargerMateriels(materialMenu, this.imageMaterial);
 
+        //on teste la fonction dans la classe player
         this._player.buttonAction(this.imageMaterial[1])
 
-        // advancedTexture.addControl(button);
-        // button.onPointerClickObservable.add(() => {
-
-        //     if(materialMenu.isVisible.valueOf() ==  true) {
-        //         materialMenu.isVisible = false;
-        //     }
-        //     else{
-        //         materialMenu.isVisible = true;
-        //     }
-        // })
      
     }
 
@@ -91,7 +82,6 @@ export class UI{
             Image[i].width = '60px';
             Image[i].height = '60px';
             Image[i].top = '0px';
-            Image[i].left = String(positionX);
             materialMenu.addControl(Image[i]);
 
         }
