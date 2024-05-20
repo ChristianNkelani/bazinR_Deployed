@@ -15,6 +15,8 @@ export class Experience1 {
   constructor(private canvas:HTMLCanvasElement){
 
     this.engine = new Engine(this.canvas);
+
+    //on cree la scene de base
     this.scene = this.CreateScene();
 
     //on charge l environnement
@@ -31,7 +33,7 @@ export class Experience1 {
   CreateScene():Scene {
     const scene = new Scene(this.engine);
     
-    const camera = new UniversalCamera("camera", new Vector3(2,3,-2.5), this.scene );
+    const camera = new UniversalCamera("camera", new Vector3(0,3,-2.5), this.scene );
     camera.speed = 0.5;
     camera.rotation._y = Math.PI/2;
     camera.rotation._x= Math.PI/14;

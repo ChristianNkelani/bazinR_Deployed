@@ -42,6 +42,12 @@ export class UI{
         materialMenu.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
         materialMenu.left = "10px";
         materialMenu.top = "10px"
+        materialMenu.onPointerMoveObservable.add(()=>{
+            materialMenu.background = "green";
+        })
+        materialMenu.onPointerOutObservable.add(()=>{
+            materialMenu.background = "white";
+        })
         materialMenu.background = "white";
         advancedTexture.addControl(materialMenu);
 
@@ -82,6 +88,12 @@ export class UI{
             Image[i].width = '60px';
             Image[i].height = '60px';
             Image[i].top = '0px';
+            Image[i].onPointerOutObservable.add(()=>{
+                Image[i].color = "white";
+            })
+            Image[i].onPointerMoveObservable.add(()=>{
+                Image[i].color = "green";
+            })    
             materialMenu.addControl(Image[i]);
 
         }
@@ -103,14 +115,19 @@ export class UI{
         advancedTexture.addControl(materialMenu);
 
         //button play
-         this.b = GUI.Button.CreateImageOnlyButton("playButton", "./images/sprites/play.png");
-        this.b.width = "50px";
-        this.b.height = "50px";
-        this.b.top = "14px";
+        this.b = GUI.Button.CreateImageOnlyButton("playButton", "./images/sprites/play.png");
+        this.b.width = "40px";
+        this.b.height = "40px";
+        // this.b.top = "14px";
         this.b.thickness = 0;
         this.b.left="-230px";
+        this.b.onPointerMoveObservable.add(()=>{this.b.width = "50px"; this.b.height="50px";})
+        this.b.onPointerOutObservable.add(()=>{
+            this.b.width = "40px";
+            this.b.height = "40px";
+        })
         this.b.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
-        // playButton.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+        this.b.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
         materialMenu.addControl(this.b);
 
 
