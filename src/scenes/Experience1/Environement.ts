@@ -1,13 +1,10 @@
 import {Scene, Engine, FreeCamera, Vector3, HemisphericLight, MeshBuilder, SceneLoader, UniversalCamera, Mesh} from "@babylonjs/core";
 import "@babylonjs/loaders";
-import { UI } from "./ui";
-import { AdvancedDynamicTexture, Button, Control, Rectangle, StackPanel } from "babylonjs-gui";
 
 export class Environement {
 
   scene: Scene;
   engine: Engine;
-  private _ui: UI;
 
   constructor(scene:Scene, engine:Engine){
     this.scene = scene;

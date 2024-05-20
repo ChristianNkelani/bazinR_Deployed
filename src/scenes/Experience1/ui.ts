@@ -3,81 +3,78 @@ import { MeshBuilder } from "babylonjs";
 import { AdvancedDynamicTexture, Button, Control, Image, Rectangle, StackPanel, TextBlock } from "babylonjs-gui";
 
 import * as GUI from '@babylonjs/gui/2D';
+import { Player } from "./Player";
 
 export class UI{
     public _scene:Scene;
     public _screenUI: any;
     public _materielMenu:any;
-    public _startTime:number=0;
-    public _stopTime:number=0;
-    public _prevTime: number = 0;
-    public time: number=0;
-    public _sString = "00";
-    public _mString = 11;
-    public imageMaterial:any;
+   
+    public imageMaterial:any
+    public _buttons:GUI.Button;
+    public _stackPanels:any=[];
+    private _player:Player;
+    public b:any;
 
     constructor(scene: Scene){
         this._scene = scene;
         
-        //importation du menu des materiels
-        this.createMaterialMenu();
-    }
+        //instance of player
+        this._player = new Player();
 
-    public createMaterialMenu(){
         //create the texture 
         const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);
         
-        
-        const button = GUI.Button.CreateSimpleButton("mybutton", 'Menu materiels');
-        button.width = '200px';
-        button.height = '40px';
-        button.color = 'white';
-        button.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-        button.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        button.top = '20px';
-        button.left = '10px';
-        button.background = 'green';
-        
+        //importation du menu des materiels
+        this.createMaterialMenu(advancedTexture);
+        this.createButtonActionMenu(advancedTexture);
 
+      
+    }
+
+    public createMaterialMenu(advancedTexture){
+       
         //create material menu
         const materialMenu = new GUI.StackPanel("stackPanel");
-        materialMenu.width = "400px";
+        materialMenu.width = "500px";
         materialMenu.height = "500px";
         materialMenu.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
         materialMenu.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
         materialMenu.left = "10px";
-        materialMenu.top = "80px"
+        materialMenu.top = "10px"
         materialMenu.background = "white";
         advancedTexture.addControl(materialMenu);
+
+        //append to this._stackPanel
+        // this._stackPanels.push(materialMenu);
         
-        //title of material Menu
-        const title = new GUI.TextBlock("title","Menu matériels");
-        title.top = "20px"
-        title.width = "250px";
-        title.height = "60px"
-        title.fontSize = "30px"
-        title.fontStyle = "bold"
-        title.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        title.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-        materialMenu.addControl(title);
+        // //title of material Menu
+        // const title = new GUI.TextBlock("title","Menu matériels");
+        // title.top = "20px"
+        // title.width = "250px";
+        // title.height = "60px"
+        // title.fontSize = "10px"
+        // title.fontStyle = "bold"
+        // title.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        // title.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+        // materialMenu.addControl(title);
 
         //creation of images
         this.imageMaterial = [];
         this.chargerMateriels(materialMenu, this.imageMaterial);
 
-        this.imageMaterial[0].onPointerClickObservable.add(() =>{
-            materialMenu.isVisible = false;
-        })
-        advancedTexture.addControl(button);
-        button.onPointerClickObservable.add(() => {
+        this._player.buttonAction(this.imageMaterial[1])
 
-            if(materialMenu.isVisible.valueOf() ==  true) {
-                materialMenu.isVisible = false;
-            }
-            else{
-                materialMenu.isVisible = true;
-            }
-        })
+        // advancedTexture.addControl(button);
+        // button.onPointerClickObservable.add(() => {
+
+        //     if(materialMenu.isVisible.valueOf() ==  true) {
+        //         materialMenu.isVisible = false;
+        //     }
+        //     else{
+        //         materialMenu.isVisible = true;
+        //     }
+        // })
      
     }
 
@@ -93,15 +90,39 @@ export class UI{
             Image[i] = new GUI.Image("image","images/"+materiels[i]+".png");
             Image[i].width = '60px';
             Image[i].height = '60px';
-            Image[i].top = '50px';
-            Image[i].horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-            Image[i].left = "50px";
-            Image[i].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+            Image[i].top = '0px';
+            Image[i].left = String(positionX);
             materialMenu.addControl(Image[i]);
 
         }
 
         // this.tab[7].onPointerClickObservable.add(this.activerModal)
+
+    }
+
+    createButtonActionMenu(advancedTexture){
+        //create material menu
+        const materialMenu = new GUI.StackPanel("stackPanel");
+        materialMenu.width = "300px";
+        materialMenu.height = "50px";
+        materialMenu.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        materialMenu.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        materialMenu.left = "-10px";
+        materialMenu.top = "10px"
+        materialMenu.background = "white";
+        advancedTexture.addControl(materialMenu);
+
+        //button play
+         this.b = GUI.Button.CreateImageOnlyButton("playButton", "./images/sprites/play.png");
+        this.b.width = "50px";
+        this.b.height = "50px";
+        this.b.top = "14px";
+        this.b.thickness = 0;
+        this.b.left="-230px";
+        this.b.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        // playButton.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+        materialMenu.addControl(this.b);
+
 
     }
 
