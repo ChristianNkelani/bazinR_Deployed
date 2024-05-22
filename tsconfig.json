@@ -1,9 +1,25 @@
 {
   "compilerOptions": {
+    // "target": "es6",
+    // "module": "ESNext",
+    // "moduleResolution": "node",
+    "noResolve": false,
+    "noImplicitAny": false,
+    // "sourceMap": true,
+    // "preserveConstEnums":true,
+    // "lib": [
+    //     "dom",
+    //     "es6"
+    // ],
+    "rootDir": "src",
+
+
     "target": "es5",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "strictPropertyInitialization": false,
+
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,

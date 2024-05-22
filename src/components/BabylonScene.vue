@@ -1,19 +1,33 @@
 <template>
-  <canvas></canvas>
+  <main>
+    <LoadingScreen :isLoaded="loaded" />
+    <canvas></canvas>
+  </main>
   <RouterLink to="/categorie">Retour</RouterLink>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Experience1 } from '../scenes/Experience1';
+import { Experience1 } from '../scenes/Experience1/App';
+import  LoadingScreen  from "@/components/LoadingScreen.vue";
 
 export default defineComponent({
   name: 'BabylonScene',
-  
+  data() {
+    return {
+      loaded : false
+    }
+  },
+  components : { LoadingScreen },
   mounted(){
-    const canvas= document.querySelector('canvas')!;
-    new Experience1(canvas);
-  }
+    const canvas= document.querySelector('canvas') as HTMLCanvasElement;
+    new Experience1(canvas, this.setLoaded );
+  },
+  methods: {
+    setLoaded() {
+      this.loaded = true;
+    },
+  },
 });
 </script>
 

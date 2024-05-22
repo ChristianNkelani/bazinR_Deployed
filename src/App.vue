@@ -2,24 +2,24 @@
   import { defineComponent } from 'vue';
   // import BabylonScene from './components/BabylonScene.vue';
   import  Home  from './pages/Home.vue';
+
+  window.addEventListener("load",()=>{
+    console.log('jjjjjk');
+  })
   
   export default defineComponent({
     name: 'App',
     components: {
       // BabylonScene
       // Home
-    }
+    },
   });
 </script>
 
 <template>
-  <!-- <div>
-    <RouterLink to="/categorie">Go to Hhjjjjjjjjjjjjjjjjjjjjome</RouterLink>
-  </div> -->
   <div>
     <RouterView/>
   </div>
-  <!-- <BabylonScene/> -->
 </template>
 
 
