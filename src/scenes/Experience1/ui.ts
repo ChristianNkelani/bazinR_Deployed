@@ -40,7 +40,7 @@ export class UI {
     
         // creation du texte
         const text = new GUI.TextBlock();
-        text.text = "Listes des Materiels"
+        text.text = "Listes de Materiels"
         text.fontSize=30
         text.fontFamily="Montserrat Black"
         text.color ="deepskyblue"

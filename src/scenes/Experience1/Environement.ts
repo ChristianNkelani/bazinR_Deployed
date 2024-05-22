@@ -97,8 +97,8 @@ export class Environement {
     ballMat.diffuseColor = new Color3(x,y,z)
     return ballMat;
   }
-// Animation
 
+  // Animation
   public createImpostor():void{
     this.ball1.physicsImpostor = new PhysicsImpostor(
       this.ball1, 
@@ -170,11 +170,14 @@ export class Environement {
     this.ball2.position.x = 7.2;
     this.ball2.position.z = -4.4
     this.ball2.diameter = 0.25
+    this.ball1.physicsImpostor.dispose();
+
 
     this.ball1.position.y = 2.5;
     this.ball1.position.x = 7.2;
     this.ball1.position.z = -0.7
     this.ball2.diameter = 0.25
+    this.ball2.physicsImpostor.dispose();
     this.cliquer=true;
     
   }
