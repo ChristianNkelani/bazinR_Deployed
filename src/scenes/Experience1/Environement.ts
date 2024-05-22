@@ -80,6 +80,8 @@ export class Environement {
 
     return [aimant1,aimant2,this.ball1,this.ball2];
   }
+
+
   public createMenu(){
     const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);
     const container = new GUI.Container();
@@ -105,7 +107,6 @@ export class Environement {
     container.addControl(text);
 
     // creation de la bille
-
     const bille = GUI.Checkbox.AddCheckBoxWithHeader('Bille ',(value)=>{
         console.log('bille');  
     })
