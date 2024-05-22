@@ -20,9 +20,10 @@ import {  } from "babylonjs";
 export class Environement {
 
   scene: Scene;
-  engine: Engine;
+  engine : Engine;
   ball1 : any;
-  ball2 : any;
+  ball2  : any;
+  cliquer : any;
 
   constructor(
     scene:Scene, engine:Engine,
@@ -43,6 +44,7 @@ export class Environement {
     this.createground()
     this.createground2()
     this.createButtonActionMenu()
+    this.cliquer = true;
     
 
   }
@@ -167,8 +169,6 @@ export class Environement {
     advancedTexture.addControl(container)
 }
 
-
-
 changeMaterialColor(x,y,z):StandardMaterial{
   const ballMat = new StandardMaterial("ballMat", this.scene);
   ballMat.diffuseColor = new Color3(x,y,z)
@@ -228,7 +228,10 @@ createButtonActionMenu(){
   b.background = 'white'
   b.color = "deepskyblue"
   b.onPointerUpObservable.add(()=>{
-    this.createImpostor();
+    if(this.cliquer == true){
+      this.createImpostor();
+      this.cliquer = false;
+    }
   })
   panel.addControl(b)
 
@@ -265,6 +268,7 @@ toRestart(){
   this.ball1.position.z = -0.7
   this.ball1.diameter = 0.25
   this.ball1.physicsImpostor.dispose();
+  this.cliquer = true;
 
 }
 } 
