@@ -175,17 +175,17 @@ changeMaterialColor(x,y,z):StandardMaterial{
 }
 // Animation
 
-createImpostor():void{
+createImpostor(mass=1):void{
   this.ball1.physicsImpostor = new PhysicsImpostor(
     this.ball1, 
     PhysicsImpostor.BoxImpostor,
-    { mass: 1, restitution : 0.75 }
+    { mass: mass, restitution : 0.75 }
   )
 
   this.ball2.physicsImpostor = new PhysicsImpostor(
     this.ball2,
     PhysicsImpostor.BoxImpostor,
-    {mass : 1 , restitution : 0.75}
+    {mass : mass , restitution : 0.75}
   )
 }
 
@@ -255,11 +255,15 @@ toRestart(){
   this.ball2.position.x = 7.2;
   this.ball2.position.z = -4.4
   this.ball2.diameter = 0.25
+  this.ball2.physicsImpostor.dispose();
+  
+  
 
   this.ball1.position.y = 2.5;
   this.ball1.position.x = 7.2;
   this.ball1.position.z = -0.7
-  this.ball2.diameter = 0.25
-  
+  this.ball1.diameter = 0.25
+  this.ball1.physicsImpostor.dispose();
+
 }
 } 
