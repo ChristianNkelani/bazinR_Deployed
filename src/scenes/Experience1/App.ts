@@ -33,10 +33,6 @@ export class Experience1 {
     //on charge l environnement
     this._environement = new Environement(this.scene, this.engine, this.setLoaded);
 
-    //on charge les autres interfaces
-    this._ui = new UI(this.scene);    
-
-
     this.engine.runRenderLoop(()=>{
       this.scene.render();
     })

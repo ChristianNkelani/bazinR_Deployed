@@ -15,6 +15,7 @@ import * as CANNON from "cannon";
 import { AdvancedDynamicTexture, Button, Control, Image, Rectangle, StackPanel, TextBlock } from "babylonjs-gui";
 import * as GUI from '@babylonjs/gui/2D';
 import {  } from "babylonjs";
+import { UI } from "./ui";
 
 
 export class Environement {
@@ -23,27 +24,35 @@ export class Environement {
   engine: Engine;
   ball1 : any;
   ball2 : any;
+  private _ui:UI;
 
   constructor(
     scene:Scene, engine:Engine,
     private setLoaded: () => void,
 
   ){
+    //la scene
     this.scene = scene;
+
+    //on charge les autres interfaces
+    this._ui = new UI(this.scene);  
 
     this.scene.enablePhysics(
       new Vector3(0,-9.81, 0), 
       new CannonJSPlugin(true,10,CANNON)
     );
+
+    //the engine
     this.engine = engine;
 
+    //creation des materiels
     this.importLaboratoire();
     this.createMateriels();
-    //this.createMenu();
     this.createground()
     this.createground2()
-    //this.createButtonActionMenu()
-    
+
+    //action des sliders
+    this.actionButtonMenu();    
 
   }
 
@@ -89,7 +98,7 @@ export class Environement {
   }
 // Animation
 
-  createImpostor():void{
+  public createImpostor():void{
     this.ball1.physicsImpostor = new PhysicsImpostor(
       this.ball1, 
       PhysicsImpostor.BoxImpostor,
@@ -130,40 +139,28 @@ export class Environement {
     ground.isVisible = false
   }
 
-  // createButtonActionMenu(){
-  //   const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);
-  //   const panel = new GUI.StackPanel();
+  actionButtonMenu(){
+    this._ui._sliders[0].onValueChangedObservable.add((value)=>{
+      this.ball1.scaling.x = value;
+      this.ball1.scaling.y = value;
+      this.ball1.scaling.z = value        
+    })
 
-  //   //button play creation
-  //   const b = GUI.Button.CreateImageButton("playButton","Play", "./images/sprites/play.png");
-  //   b.width = "200px";
-  //   b.height = "39px";
-  //   b.background = 'white'
-  //   b.color = "deepskyblue"
-  //   b.onPointerUpObservable.add(()=>{
-  //     this.createImpostor();
-  //   })
-  //   panel.addControl(b)
+    this._ui._sliders[1].onValueChangedObservable.add((value)=>{
+      this.ball2.scaling.x = value;
+      this.ball2.scaling.y = value;
+      this.ball2.scaling.z = value;
+    })
 
-  //   const restartButon = GUI.Button.CreateSimpleButton("restartButon", "Restart")
-  //   restartButon.width = "200px";
-  //   restartButon.height = "39px";
-  //   restartButon.background = 'white'
-  //   restartButon.color = "deepskyblue"
-  //   restartButon.onPointerUpObservable.add(()=>{
-  //     this.toRestart();
-  //   })
+    this._ui._buttonAction[0].onPointerUpObservable.add(()=>{
+      this.createImpostor();
+    })
+    this._ui._buttonAction[1].onPointerUpObservable.add(()=>{
+      this.toRestart();
+    })
+  }
 
-  //   panel.addControl(restartButon);
-  //   panel.isVertical = false
-  //   panel.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
-  //   panel.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
-  //   panel.top = 10
-  //   panel.height="40px"
-
-
-  //   advancedTexture.addControl(panel)
-  // }
+ 
   toRestart(){
     this.ball2.position.y = 2.5;
     this.ball2.position.x = 7.2;
