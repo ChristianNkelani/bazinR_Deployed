@@ -24,6 +24,7 @@ export class Environement {
   engine: Engine;
   ball1 : any;
   ball2 : any;
+  cliquer=true;//variable pour activer impostor ou non
   private _ui:UI;
 
   constructor(
@@ -153,7 +154,10 @@ export class Environement {
     })
 
     this._ui._buttonAction[0].onPointerUpObservable.add(()=>{
-      this.createImpostor();
+      if(this.cliquer == true){
+        this.createImpostor();
+        this.cliquer = false;
+      }
     })
     this._ui._buttonAction[1].onPointerUpObservable.add(()=>{
       this.toRestart();
@@ -171,6 +175,7 @@ export class Environement {
     this.ball1.position.x = 7.2;
     this.ball1.position.z = -0.7
     this.ball2.diameter = 0.25
+    this.cliquer=true;
     
   }
 } 
