@@ -15,6 +15,7 @@ import * as CANNON from "cannon";
 import { AdvancedDynamicTexture, Button, Control, Image, Rectangle, StackPanel, TextBlock } from "babylonjs-gui";
 import * as GUI from '@babylonjs/gui/2D';
 import {  } from "babylonjs";
+import { UI } from "./ui";
 
 
 export class Environement {
@@ -22,30 +23,37 @@ export class Environement {
   scene: Scene;
   engine : Engine;
   ball1 : any;
-  ball2  : any;
-  cliquer : any;
+  ball2 : any;
+  cliquer=true;//variable pour activer impostor ou non
+  private _ui:UI;
 
   constructor(
     scene:Scene, engine:Engine,
     private setLoaded: () => void,
 
   ){
+    //la scene
     this.scene = scene;
+
+    //on charge les autres interfaces
+    this._ui = new UI(this.scene);  
 
     this.scene.enablePhysics(
       new Vector3(0,-9.81, 0), 
       new CannonJSPlugin(true,10,CANNON)
     );
+
+    //the engine
     this.engine = engine;
 
+    //creation des materiels
     this.importLaboratoire();
     this.createMateriels();
-    this.createMenu();
     this.createground()
     this.createground2()
-    this.createButtonActionMenu()
-    this.cliquer = true;
-    
+
+    //action des sliders
+    this.actionButtonMenu();    
 
   }
 
@@ -84,58 +92,95 @@ export class Environement {
   }
 
 
-  public createMenu(){
-    const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);
-    const container = new GUI.Container();
+  changeMaterialColor(x,y,z):StandardMaterial{
+    const ballMat = new StandardMaterial("ballMat", this.scene);
+    ballMat.diffuseColor = new Color3(x,y,z)
+    return ballMat;
+  }
 
-    container.background = "white"
-    container.width = "300px"
-    container.height=0.5
+  // Animation
+  public createImpostor():void{
+    this.ball1.physicsImpostor = new PhysicsImpostor(
+      this.ball1, 
+      PhysicsImpostor.BoxImpostor,
+      { mass: 1, restitution : 0.75 }
+    )
 
-    container.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
-    container.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
-    container.top = "20px"
-    container.left = "10px"
+    this.ball2.physicsImpostor = new PhysicsImpostor(
+      this.ball2,
+      PhysicsImpostor.BoxImpostor,
+      {mass : 1 , restitution : 0.75}
+    )
+  }
 
-    // creation du texte
-    const text = new GUI.TextBlock();
-    text.text = "Listes des Materiels"
-    text.fontSize=30
-    text.fontFamily="Montserrat Black"
-    text.color ="deepskyblue"
-    text.height="25px"
-    text.top = "5px"
-    text.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
-    container.addControl(text);
+  createground(){
+    const ground = MeshBuilder.CreateGround('ground', {})
+    ground.position.y = 0.7
+    ground.position.x = 7
+    ground.position.z = -0.5
 
-    // creation de la bille
-    const bille = GUI.Checkbox.AddCheckBoxWithHeader('Bille ',(value)=>{
-        console.log('bille');  
+    ground.physicsImpostor = new PhysicsImpostor(
+      ground,
+      PhysicsImpostor.BoxImpostor,
+      { mass: 0, restitution: 0.5}
+    )
+    ground.isVisible = false
+  }
+  createground2(){
+    const ground = MeshBuilder.CreateGround('ground', {})
+    ground.position.y = 0.7
+    ground.position.x = 7
+    ground.position.z = -4.5
+
+    ground.physicsImpostor = new PhysicsImpostor(
+      ground,
+      PhysicsImpostor.BoxImpostor,
+      { mass: 0, restitution: 0.5}
+    )
+    ground.isVisible = false
+  }
+
+  actionButtonMenu(){
+    this._ui._sliders[0].onValueChangedObservable.add((value)=>{
+      this.ball1.scaling.x = value;
+      this.ball1.scaling.y = value;
+      this.ball1.scaling.z = value        
     })
-    bille.children[1].color = 'black'
-    bille.verticalAlignment=GUI.Control.VERTICAL_ALIGNMENT_TOP
-    bille.top = 40
-    container.addControl(bille);
 
-    const textBille = new GUI.TextBlock();
-    textBille.text = "Taille de la bille Jaune "
-    textBille.height = "15px"
-    textBille.top="80px"
-    textBille.left = "-42px"
-    textBille.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
-    container.addControl(textBille)
+    this._ui._sliders[1].onValueChangedObservable.add((value)=>{
+      this.ball2.scaling.x = value;
+      this.ball2.scaling.y = value;
+      this.ball2.scaling.z = value;
+    })
 
-    // gestionnaire de taille 
-    const slider = new GUI.Slider();
-    slider.minimum = 0.9;
-    slider.maximum = 2
-    slider.height = '20px'
-    slider.width = '200px'
-    slider.value = 1
-    slider.top = "-120px"
-    slider.left ="-7px"
-    // ecouter un evenement au chanfement de la valeur
+    this._ui._buttonAction[0].onPointerUpObservable.add(()=>{
+      if(this.cliquer == true){
+        this.createImpostor();
+        this.cliquer = false;
+      }
+    })
+    this._ui._buttonAction[1].onPointerUpObservable.add(()=>{
+      this.toRestart();
+    })
+  }
+
+ 
+  toRestart(){
+    this.ball2.position.y = 2.5;
+    this.ball2.position.x = 7.2;
+    this.ball2.position.z = -4.4
+    this.ball2.diameter = 0.25
+    this.ball1.physicsImpostor.dispose();
+
+
+    this.ball1.position.y = 2.5;
+    this.ball1.position.x = 7.2;
+    this.ball1.position.z = -0.7
+    this.ball2.diameter = 0.25
+    this.ball2.physicsImpostor.dispose();
+    this.cliquer=true;
     
+<<<<<<< HEAD
     slider.onValueChangedObservable.add((value)=>{
         this.ball1.scaling.x = value;
         this.ball1.scaling.y = value;
@@ -271,4 +316,7 @@ toRestart(){
   this.cliquer = true;
 
 }
+=======
+  }
+>>>>>>> arranger
 } 

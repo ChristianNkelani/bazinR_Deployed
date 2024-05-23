@@ -6,93 +6,136 @@ import { Player } from "./Player";
 
 export class UI {
     public _scene:Scene;
-    public _screenUI: any;
-    public _materielMenu:any;
-   
-    public imageMaterial:any
-    public _buttons:GUI.Button;
-    public _stackPanels:any=[];
     private _player:Player;
+    public _sliders:any;
+    public _buttonAction:any;
 
     constructor(scene: Scene){
         this._scene = scene;
         
+        //creation du menu
+        this.createMenu();
+        //menu action
+        this.createButtonActionMenu();
         //instance of player
         this._player = new Player();
 
         //create the texture 
         const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);        
     }
-    public createMaterialMenu(advancedTexture){
-       
-        //create material menu
-        const materialMenu = new GUI.StackPanel("stackPanel");
-        materialMenu.width = "90px";
-        materialMenu.height = "500px";
-        materialMenu.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-        materialMenu.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        materialMenu.left = "40px";
-        materialMenu.top = "10px"
-        materialMenu.onPointerMoveObservable.add(()=>{
-            materialMenu.background = "green";
+   
+    
+    public createMenu(){
+        const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);
+        const container = new GUI.Container();
+    
+        container.background = "white"
+        container.width = "300px"
+        container.height=0.5
+    
+        container.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
+        container.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
+        container.top = "20px"
+        container.left = "10px"
+    
+        // creation du texte
+        const text = new GUI.TextBlock();
+        text.text = "Listes de Materiels"
+        text.fontSize=30
+        text.fontFamily="Montserrat Black"
+        text.color ="deepskyblue"
+        text.height="25px"
+        text.top = "5px"
+        text.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
+        container.addControl(text);
+    
+        // creation de la bille
+        const bille = GUI.Checkbox.AddCheckBoxWithHeader('Bille ',(value)=>{
+            console.log('bille');  
         })
-        materialMenu.onPointerOutObservable.add(()=>{
-            materialMenu.background = "white";
-        })
-        materialMenu.background = "white";
-        advancedTexture.addControl(materialMenu);
-
-        //append to this._stackPanel
-        // this._stackPanels.push(materialMenu);
+        bille.children[1].color = 'black'
+        bille.verticalAlignment=GUI.Control.VERTICAL_ALIGNMENT_TOP
+        bille.top = 40
+        container.addControl(bille);
+    
+        const textBille = new GUI.TextBlock();
+        textBille.text = "Taille de la bille Jaune "
+        textBille.height = "15px"
+        textBille.top="80px"
+        textBille.left = "-42px"
+        textBille.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
+        container.addControl(textBille)
         
-        // //title of material Menu
-        // const title = new GUI.TextBlock("title","Menu matériels");
-        // title.top = "20px"
-        // title.width = "250px";
-        // title.height = "60px"
-        // title.fontSize = "10px"
-        // title.fontStyle = "bold"
-        // title.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        // title.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-        // materialMenu.addControl(title);
-
-        //creation of images
-        this.imageMaterial = [];
-        this.chargerMateriels(materialMenu, this.imageMaterial);
-
-        //on teste la fonction dans la classe player
-        // this._player.buttonAction(this.imageMaterial[1])
-
-     
+        this._sliders = [];
+        // gestionnaire de taille 
+        this._sliders[0] = new GUI.Slider();
+        this._sliders[0].minimum = 0.9;
+        this._sliders[0].maximum = 2
+        this._sliders[0].height = '20px'
+        this._sliders[0].width = '200px'
+        this._sliders[0].value = 1
+        this._sliders[0].top = "-120px"
+        this._sliders[0].left ="-7px"
+        // ecouter un evenement au chanfement de la valeur
+        
+        
+    
+        container.addControl(this._sliders[0])
+    
+        const textBille2 = new GUI.TextBlock();
+        textBille2.text = "taille de la bille Rouge"
+        textBille2.height ='15px'
+        textBille2.top = "-90px"
+        textBille2.left = "-25px"
+        container.addControl(textBille2)
+    
+        this._sliders[1] = new GUI.Slider();
+        this._sliders[1].minimum = 0.9;
+        this._sliders[1].maximum = 2;
+        this._sliders[1].height = '20px'
+        this._sliders[1].width = '200px'
+        this._sliders[1].value = 1;
+        this._sliders[1].top = "-70px"
+        this._sliders[1].left ="-10px"
+       
+        container.addControl(this._sliders[1])
+    
+        advancedTexture.addControl(container)
     }
 
-    chargerMateriels(materialMenu, Image:Image){
-        //button for hide and show menu materials
-        const materiels = ["ball","ball1","chronometre", "thermo","generator","motor"];
-        // const tab = [];
-        //variable for placing element suivant x
-        // let positionX = 10;
+    createButtonActionMenu(){
+        //on defini la variable de classe comme tableau
+        this._buttonAction = [];
+        const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);
+        const panel = new GUI.StackPanel();
+      
+        //button play creation
+        this._buttonAction[0] = GUI.Button.CreateImageButton("playButton","Play", "./images/sprites/play.png");
+        this._buttonAction[0].width = "200px";
+        this._buttonAction[0].height = "39px";
+        this._buttonAction[0].background = 'white';
+        this._buttonAction[0].color = "deepskyblue";
+        
+        panel.addControl(this._buttonAction[0]);
+      
+        this._buttonAction[1] = GUI.Button.CreateSimpleButton("restartButon", "Restart");
+        this._buttonAction[1].width = "200px";
+        this._buttonAction[1].height = "39px";
+        this._buttonAction[1].background = 'white';
+        this._buttonAction[1].color = "deepskyblue";
+        
+      
+        panel.addControl(this._buttonAction[1]);
 
-        for (let i = 0; i <= materiels.length ; i++) {
-
-            Image[i] = new GUI.Image("image","images/"+materiels[i]+".png");
-            Image[i].width = '60px';
-            Image[i].height = '60px';
-            Image[i].top = '0px';
-            Image[i].onPointerOutObservable.add(()=>{
-                Image[i].color = "white";
-            })
-            Image[i].onPointerMoveObservable.add(()=>{
-                Image[i].color = "green";
-            })    
-            materialMenu.addControl(Image[i]);
-
-        }
-
-
-    }   
-
+        panel.isVertical = false;
+        panel.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        panel.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        panel.top = 10;
+        panel.height="40px";
+      
+      
+        advancedTexture.addControl(panel);
+      }
     
-
 
 }
