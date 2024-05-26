@@ -10,6 +10,17 @@ export class UI {
     public _sliders:any;
     public _buttonAction:any;
 
+    //Game Timer
+    public time: number; //keep track to signal end game REAL TIME
+    private _prevTime: number = 0;
+    public _clockTime: any; //GAME TIME
+    private _startTime: number;
+    public _stopTimer: boolean;
+    public _sString = "00";
+    public _mString = 0;
+    private _lanternCnt: TextBlock;
+    public gravitation: any;
+
     constructor(scene: Scene){
         this._scene = scene;
         
@@ -22,6 +33,11 @@ export class UI {
 
         //create the texture 
         const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);        
+        this.Chrono(advancedTexture);
+    
+
+        
+        
     }
    
     
@@ -40,7 +56,7 @@ export class UI {
     
         // creation du texte
         const text = new GUI.TextBlock();
-        text.text = "Listes de Materiels"
+        text.text = "Liste de Materiels"
         text.fontSize=30
         text.fontFamily="Montserrat Black"
         text.color ="deepskyblue"
@@ -49,20 +65,12 @@ export class UI {
         text.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
         container.addControl(text);
     
-        // creation de la bille
-        const bille = GUI.Checkbox.AddCheckBoxWithHeader('Bille ',(value)=>{
-            console.log('bille');  
-        })
-        bille.children[1].color = 'black'
-        bille.verticalAlignment=GUI.Control.VERTICAL_ALIGNMENT_TOP
-        bille.top = 40
-        container.addControl(bille);
     
         const textBille = new GUI.TextBlock();
         textBille.text = "Taille de la bille Jaune "
         textBille.height = "15px"
-        textBille.top="80px"
-        textBille.left = "-42px"
+        textBille.top="55px"
+        textBille.left = "-10px"
         textBille.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
         container.addControl(textBille)
         
@@ -74,19 +82,22 @@ export class UI {
         this._sliders[0].height = '20px'
         this._sliders[0].width = '200px'
         this._sliders[0].value = 1
-        this._sliders[0].top = "-120px"
-        this._sliders[0].left ="-7px"
+        this._sliders[0].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        this._sliders[0].top = "70x"
+        this._sliders[0].left ="-10px"
         // ecouter un evenement au chanfement de la valeur
         
         
     
         container.addControl(this._sliders[0])
-    
+        
+        //text bille 2
         const textBille2 = new GUI.TextBlock();
-        textBille2.text = "taille de la bille Rouge"
+        textBille2.text = "Taille de la bille Rouge"
         textBille2.height ='15px'
-        textBille2.top = "-90px"
-        textBille2.left = "-25px"
+        textBille2.top = "103px"
+        textBille2.left = "-10px"
+        textBille2.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
         container.addControl(textBille2)
     
         this._sliders[1] = new GUI.Slider();
@@ -94,11 +105,36 @@ export class UI {
         this._sliders[1].maximum = 2;
         this._sliders[1].height = '20px'
         this._sliders[1].width = '200px'
+        this._sliders[1].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
         this._sliders[1].value = 1;
-        this._sliders[1].top = "-70px"
+        this._sliders[1].top = "120px"
         this._sliders[1].left ="-10px"
        
         container.addControl(this._sliders[1])
+
+        //slider for gravitation
+        this._sliders[2] = new GUI.Slider();
+        this._sliders[2].minimum = 0.2;
+        this._sliders[2].maximum = 11;
+        this._sliders[2].height = '20px'
+        this._sliders[2].width = '200px'
+        this._sliders[2].value = 1;
+        this._sliders[2].top = "170px"
+        this._sliders[2].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        this._sliders[2].left ="-10px"
+       
+        container.addControl(this._sliders[2])
+
+        //text bille 2
+        const textgravitation = new GUI.TextBlock();
+        textgravitation.text = "Constante de gravitation"
+        textgravitation.height ='15px'
+        textgravitation.top = "153px"
+        textgravitation.left = "-15px"
+        textgravitation.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        container.addControl(textgravitation)
+    
+    
     
         advancedTexture.addControl(container)
     }
@@ -136,6 +172,60 @@ export class UI {
       
         advancedTexture.addControl(panel);
       }
+
+    public Chrono(advancedTexture){
+        //Game timer text
+        const clockTime = new GUI.TextBlock();
+        clockTime.name = "clock";
+        clockTime.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+        clockTime.fontSize = "48px";
+        clockTime.color = "white";
+        clockTime.text = "00:00";
+        clockTime.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        clockTime.resizeToFit = true;
+        clockTime.height = "96px";
+        clockTime.width = "220px";
+        clockTime.fontFamily = "Viga";
+        advancedTexture.addControl(clockTime);
+        this._clockTime = clockTime;
+        
+    }
+
+    //---- Game Timer ----
+    public startTimer(): void {
+        if(!this._stopTimer){
+
+            this._startTime = new Date().getTime();
+            this._stopTimer = false;
+        }
+    }
+    public stopTimer(): void {
+        this._stopTimer = true;
+    }
+
+    //format the time so that it is relative to 11:00 -- game time
+    private _formatTime(time: number): string {
+        let minsPassed = Math.floor(time / 60); //seconds in a min 
+        let secPassed = time % 240; // goes back to 0 after 4mins/240sec
+        //gameclock works like: 4 mins = 1 hr
+        // 4sec = 1/15 = 1min game time        
+            this._mString = Math.floor(minsPassed / 1) ;
+            this._sString = (secPassed / 1 < 10 ? "0" : "") + secPassed / 1;
+        
+        let day = (this._mString == 11 ? " " : " ");
+        
+        return ("0"+this._mString + ":" + this._sString + day);
+    }
+
+    public updateHud(): void {
+        if(!this._stopTimer && this._startTime != null ){
+            let curTime = Math.floor((new Date().getTime() - this._startTime) / 10) + this._prevTime; // divide by 1000 to get seconds
+
+            this.time = curTime; //keeps track of the total time elapsed in seconds
+            this._clockTime.text = this._formatTime(curTime);
+        }
+            
+    }
     
 
 }
