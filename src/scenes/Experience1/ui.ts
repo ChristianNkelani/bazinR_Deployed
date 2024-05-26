@@ -110,8 +110,6 @@ export class UI {
         textBille2.top = "103px"
         textBille2.left = "-10px"
         textBille2.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        textBille2.top = "-90px"
-        textBille2.left = "-42px"
         container.addControl(textBille2)
     
         this._sliders[1] = new GUI.Slider();
@@ -132,6 +130,9 @@ export class UI {
         });
         chambrevide.children[1].color = 'black';
         chambrevide.left = '-25px';
+        chambrevide.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        chambrevide.top = "210px";
+        chambrevide.left = "-10";
         container.addControl(chambrevide);
 
 
