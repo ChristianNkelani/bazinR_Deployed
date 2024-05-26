@@ -59,33 +59,4 @@ export class Experience1 {
 
     return scene;
   }
-
-
-
-
-
-  // creation de la chambre a vide
-
-  chambreVide(){
-    const box = MeshBuilder.CreateBox(
-      "box", {
-        width : 2.8,
-        height : 5.9,
-        size:5.5
-      }, 
-      this.scene
-    );
-    box.position.x = 6.5;
-    box.position.z = -2.5;
-    const glass = new PBRMaterial("glass", this.scene);
-    glass.alpha = 0.5;
-    glass.directIntensity = 0.0;
-    glass.environmentIntensity = 0.7;
-    glass.cameraExposure = 0.66;
-    glass.cameraContrast = 1.66;
-    glass.microSurface = 1;
-    glass.reflectivityColor = new Color3(0.2, 0.2, 0.2);
-    glass.albedoColor = new Color3(0.95, 0.95, 0.95);
-    box.material = glass
-  }
 }

@@ -8,6 +8,7 @@ import {
         Vector3,
         CannonJSPlugin,
         PhysicsImpostor,
+        PBRMaterial
 } from "@babylonjs/core";
 
 import "@babylonjs/loaders";
@@ -51,7 +52,7 @@ export class Environement {
   });
 
     this.scene.enablePhysics(
-      new Vector3(0,-(this._ui._sliders[2].value), 0), 
+      new Vector3(0,-9.81, 0), 
       new CannonJSPlugin(true,10,CANNON)
     );
 
@@ -180,8 +181,6 @@ export class Environement {
       this.toRestart();
     })
   }
-
- 
   toRestart(){
     this.ball2.position.y = 2.5;
     this.ball2.position.x = 7.2;

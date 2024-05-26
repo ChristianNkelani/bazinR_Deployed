@@ -1,12 +1,10 @@
-import { Scene, MeshBuilder } from "@babylonjs/core";
-import { AdvancedDynamicTexture, Button, Control, Image, Rectangle, StackPanel, TextBlock } from "babylonjs-gui";
-
+import { Scene, MeshBuilder, Color3, PBRMaterial } from "@babylonjs/core";
 import * as GUI from '@babylonjs/gui/2D';
 import { Player } from "./Player";
 
 export class UI {
-    public _scene:Scene;
     private _player:Player;
+    public _scene:Scene;
     public _sliders:any;
     public _buttonAction:any;
 
@@ -18,8 +16,10 @@ export class UI {
     public _stopTimer: boolean;
     public _sString = "00";
     public _mString = 0;
-    private _lanternCnt: TextBlock;
     public gravitation: any;
+
+    public box :any;
+    public textedynamique : string
 
     constructor(scene: Scene){
         this._scene = scene;
@@ -30,6 +30,9 @@ export class UI {
         this.createButtonActionMenu();
         //instance of player
         this._player = new Player();
+
+        // creation de la chambre vide
+        this.chambreVide()
 
         //create the texture 
         const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);        
@@ -65,6 +68,15 @@ export class UI {
         text.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
         container.addControl(text);
     
+
+        // creation de la bille
+        const bille = GUI.Checkbox.AddCheckBoxWithHeader('Bille ',(value)=>{
+            console.log('bille');  
+        })
+        bille.children[1].color = 'black'
+        bille.verticalAlignment=GUI.Control.VERTICAL_ALIGNMENT_TOP
+        bille.top = 40
+        // container.addControl(bille);
     
         const textBille = new GUI.TextBlock();
         textBille.text = "Taille de la bille Jaune "
@@ -98,6 +110,8 @@ export class UI {
         textBille2.top = "103px"
         textBille2.left = "-10px"
         textBille2.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        textBille2.top = "-90px"
+        textBille2.left = "-42px"
         container.addControl(textBille2)
     
         this._sliders[1] = new GUI.Slider();
@@ -109,6 +123,18 @@ export class UI {
         this._sliders[1].value = 1;
         this._sliders[1].top = "120px"
         this._sliders[1].left ="-10px"
+
+        this.textedynamique = 'Activer'
+
+        const chambrevide = GUI.Checkbox.AddCheckBoxWithHeader('chambre vide',(value)=>{
+            this.box.isVisible = value;
+            
+        });
+        chambrevide.children[1].color = 'black';
+        chambrevide.left = '-25px';
+        container.addControl(chambrevide);
+
+
        
         container.addControl(this._sliders[1])
 
@@ -226,6 +252,32 @@ export class UI {
         }
             
     }
+    
+
+      // creation de la chambre a vide
+
+  chambreVide(){
+    this.box = MeshBuilder.CreateBox(
+      "box", {
+        width : 2.8,
+        height : 5.9,
+        size:5.5
+      }, 
+      this._scene
+    );
+    this.box.position.x = 6.5;
+    this.box.position.z = -2.5;
+    const glass = new PBRMaterial("glass", this._scene);
+    glass.alpha = 0.5;
+    glass.directIntensity = 0.0;
+    glass.environmentIntensity = 0.7;
+    glass.cameraExposure = 0.66;
+    glass.cameraContrast = 1.66;
+    glass.microSurface = 1;
+    glass.reflectivityColor = new Color3(0.2, 0.2, 0.2);
+    glass.albedoColor = new Color3(0.95, 0.95, 0.95);
+    this.box.material = glass
+  }
     
 
 }
