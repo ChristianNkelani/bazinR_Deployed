@@ -15,7 +15,6 @@ import "@babylonjs/loaders";
 import * as CANNON from "cannon";
 import { AdvancedDynamicTexture, Button, Control, Image, Rectangle, StackPanel, TextBlock } from "babylonjs-gui";
 import * as GUI from '@babylonjs/gui/2D';
-import {  } from "babylonjs";
 import { UI } from "./ui";
 
 

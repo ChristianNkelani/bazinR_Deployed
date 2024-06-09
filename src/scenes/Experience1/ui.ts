@@ -1,6 +1,7 @@
 import { Scene, MeshBuilder, Color3, PBRMaterial } from "@babylonjs/core";
 import * as GUI from '@babylonjs/gui/2D';
 import { Player } from "./Player";
+import { Rectangle } from "babylonjs-gui";
 
 export class UI {
     private _player:Player;
@@ -115,8 +116,11 @@ export class UI {
 
        
         container.addControl(this._sliders[1])
+        
     
         advancedTexture.addControl(container)
+        // creation chronr
+    
     }
 
     createButtonActionMenu(){
@@ -176,7 +180,5 @@ export class UI {
     glass.reflectivityColor = new Color3(0.2, 0.2, 0.2);
     glass.albedoColor = new Color3(0.95, 0.95, 0.95);
     this.box.material = glass
-  }
-    
-
+  } 
 }
