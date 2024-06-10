@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Experience1 } from '../scenes/Experience1/App';
+import { Experience1} from '../scenes/Experience1/App';
 import  LoadingScreen  from "@/components/LoadingScreen.vue";
 
 export default defineComponent({

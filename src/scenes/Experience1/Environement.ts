@@ -48,11 +48,12 @@ export class Environement {
           // }
           console.log(this.ball1.position._y);
           
+          
       
   });
 
     this.scene.enablePhysics(
-      new Vector3(0,-9.81, 0), 
+      new Vector3(0,-2, 0), 
       new CannonJSPlugin(true,10,CANNON)
     );
 
@@ -71,9 +72,7 @@ export class Environement {
   }
 
   async importLaboratoire(){
-    // this.engine.displayLoadingUI();
     const labo = await SceneLoader.ImportMeshAsync("","./models/","laboratoire.glb", this.scene);
-    // this.engine.hideLoadingUI();
     this.setLoaded();
     return labo;
   }

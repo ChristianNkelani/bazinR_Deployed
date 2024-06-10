@@ -6,7 +6,10 @@ export class UI {
     private _player:Player;
     public _scene:Scene;
     public _sliders:any;
+    public _materials:any;
     public _buttonAction:any;
+    public _textMasse:any;
+
 
     //Game Timer
     public time: number; //keep track to signal end game REAL TIME
@@ -31,9 +34,6 @@ export class UI {
         //instance of player
         this._player = new Player();
 
-        // creation de la chambre vide
-        this.chambreVide()
-
         //create the texture 
         const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);        
         this.Chrono(advancedTexture);
@@ -43,23 +43,23 @@ export class UI {
         
     }
    
-    
-    public createMenu(){
-        const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);
-        const container = new GUI.Container();
-    
-        container.background = "white"
-        container.width = "300px"
-        container.height=0.5
-    
-        container.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
-        container.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
-        container.top = "20px"
-        container.left = "10px"
-    
+    createMenuCalculs(container){
+       // creation du texte
+       const text = new GUI.TextBlock();
+       text.text = "Calculs"
+       text.fontSize=30
+       text.fontFamily="Montserrat Black"
+       text.color ="deepskyblue"
+       text.height="25px"
+       text.top = "5px"
+       text.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
+       container.addControl(text);
+    }
+
+    createMenuMats(container){
         // creation du texte
         const text = new GUI.TextBlock();
-        text.text = "Liste de Materiels"
+        text.text = "Materiels"
         text.fontSize=30
         text.fontFamily="Montserrat Black"
         text.color ="deepskyblue"
@@ -78,45 +78,51 @@ export class UI {
         bille.top = 40
         // container.addControl(bille);
     
+        //text boitier 1
         const textBille = new GUI.TextBlock();
-        textBille.text = "Taille de la bille Jaune "
+        textBille.text = "Taille du boitier Jaune "
         textBille.height = "15px"
         textBille.top="55px"
         textBille.left = "-10px"
         textBille.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
         container.addControl(textBille)
         
+        //define slider as an array
         this._sliders = [];
-        // gestionnaire de taille 
+        
         this._sliders[0] = new GUI.Slider();
         this._sliders[0].minimum = 0.9;
-        this._sliders[0].maximum = 2
+        this._sliders[0].maximum = 2;
         this._sliders[0].height = '20px'
         this._sliders[0].width = '200px'
-        this._sliders[0].value = 1
+        this._sliders[0].value = 1;
+        this._sliders[0].minimum = 0;
+        this._sliders[0].maximum = 10;
+        this._sliders[0].step = 1;
+        this._sliders[0].displayValueBar = true
         this._sliders[0].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
         this._sliders[0].top = "70x"
         this._sliders[0].left ="-10px"
-        // ecouter un evenement au chanfement de la valeur
-        
-        
-    
         container.addControl(this._sliders[0])
         
-        //text bille 2
+        //text boitier2
         const textBille2 = new GUI.TextBlock();
-        textBille2.text = "Taille de la bille Rouge"
+        textBille2.text = "Taille du boitier Rouge"
         textBille2.height ='15px'
         textBille2.top = "103px"
         textBille2.left = "-10px"
         textBille2.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
         container.addControl(textBille2)
     
+        //boitier2
         this._sliders[1] = new GUI.Slider();
         this._sliders[1].minimum = 0.9;
         this._sliders[1].maximum = 2;
-        this._sliders[1].height = '20px'
-        this._sliders[1].width = '200px'
+        this._sliders[1].height = '20px';
+        this._sliders[1].width = '200px';
+        this._sliders[1].minimum = 0;
+        this._sliders[1].maximum = 10;
+        this._sliders[1].step = 1;
         this._sliders[1].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
         this._sliders[1].value = 1;
         this._sliders[1].top = "120px"
@@ -124,19 +130,6 @@ export class UI {
 
         this.textedynamique = 'Activer'
 
-        const chambrevide = GUI.Checkbox.AddCheckBoxWithHeader('chambre vide',(value)=>{
-            this.box.isVisible = value;
-            
-        });
-        chambrevide.children[1].color = 'black';
-        chambrevide.left = '-25px';
-        chambrevide.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        chambrevide.top = "210px";
-        chambrevide.left = "-10";
-        container.addControl(chambrevide);
-
-
-       
         container.addControl(this._sliders[1])
 
         //slider for gravitation
@@ -160,9 +153,39 @@ export class UI {
         textgravitation.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
         container.addControl(textgravitation)
     
+    }
+
+    public createMenu(){
+        const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);
+        const container1 = new GUI.Container();
     
+        container1.background = "white"
+        container1.width = "300px"
+        container1.height=0.4
     
-        advancedTexture.addControl(container)
+        container1.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
+        container1.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
+        container1.top = "20px"
+        container1.left = "10px"
+    
+        advancedTexture.addControl(container1)
+
+        const container2 = new GUI.Container();
+    
+        container2.background = "white"
+        container2.width = "300px"
+        container2.height=0.4
+    
+        container2.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
+        container2.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
+        container2.top = "300px"
+        container2.left = "10px"
+    
+        advancedTexture.addControl(container2)
+
+        this.createMenuMats(container1);
+        this.createMenuCalculs(container2);
+        this.textMassses(container2);
     }
 
     createButtonActionMenu(){
@@ -256,7 +279,7 @@ export class UI {
 
       // creation de la chambre a vide
 
-  chambreVide(){
+    chambreVide(){
     this.box = MeshBuilder.CreateBox(
       "box", {
         width : 2.8,
@@ -277,7 +300,69 @@ export class UI {
     glass.reflectivityColor = new Color3(0.2, 0.2, 0.2);
     glass.albedoColor = new Color3(0.95, 0.95, 0.95);
     this.box.material = glass
-  }
+    }
+
+    textMassses(container){
+        this._textMasse = [];
+        
+        let posy = 95;
+        const texts = ["m1", "m2","Données"]
+        for (let i = 0; i <= 4; i++) {
+            this._textMasse[i] = new GUI.TextBlock("m1");
+            this._textMasse[i].width = "200px";
+            this._textMasse[i].height = "20px";
+            this._textMasse[i].top = posy;
+            this._textMasse[i].horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+            this._textMasse[i].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+            if(i<3){
+                this._textMasse[i].text = texts[i]+" = " +this._sliders[i].value+" kg";
+            }
+            this._textMasse[i].left = "-10px";
+            container.addControl(this._textMasse[i]);
+            posy += 20;
+        }
+
+        this._textMasse[2].top = 70;
+        this._textMasse[2].text = "Données";
+        this._textMasse[3].text = "m12 = "+(this._sliders[0].value+this._sliders[1].value)+" kg";
+        this._textMasse[3].top = 140;
+        this._textMasse[2].underline = true;
+        
+
+        //text for formules
+        let posy1 = 70;
+        let text:any;
+        text = [];
+        for (let i = 0; i <= 4; i++) {
+            text[i] = new GUI.TextBlock("m1");
+            text[i].width = "200px";
+            text[i].height = "20px";
+            text[i].top = posy1;
+            text[i].horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+            text[i].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+            text[i].left = "120px";
+            container.addControl(text[i]);
+            posy1 += 25;
+        }
+
+        text[0].text = "Formules";
+        text[0].underline = true;
+        text[1].text = "P1 = m1xg";
+        text[2].text = "P2 = m2xg";
+        text[3].text = "P12 = (m12)xg";
+
+        //application numérique
+        text[4].text = "AN";
+        text[4].underline = true;
+        text[4].horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+        text[4].left = "45px";
+
+        this._textMasse[4].text = "P1 = "+(this._sliders[0].value)+"x9.81"+" kg";
+        this._textMasse[4].top = 190;
+
+    }
+
+  
     
 
 }
