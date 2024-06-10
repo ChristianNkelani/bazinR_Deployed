@@ -1,6 +1,7 @@
 import { Scene, MeshBuilder, Color3, PBRMaterial } from "@babylonjs/core";
 import * as GUI from '@babylonjs/gui/2D';
 import { Player } from "./Player";
+import { Rectangle } from "babylonjs-gui";
 
 export class UI {
     private _player:Player;
@@ -10,7 +11,7 @@ export class UI {
 
     //Game Timer
     public time: number; //keep track to signal end game REAL TIME
-    private _prevTime: number = 0;
+    private _prevTime = 0;
     public _clockTime: any; //GAME TIME
     private _startTime: number;
     public _stopTimer: boolean;
@@ -163,6 +164,8 @@ export class UI {
     
     
         advancedTexture.addControl(container)
+        // creation chronr
+    
     }
 
     createButtonActionMenu(){
@@ -231,21 +234,21 @@ export class UI {
 
     //format the time so that it is relative to 11:00 -- game time
     private _formatTime(time: number): string {
-        let minsPassed = Math.floor(time / 60); //seconds in a min 
-        let secPassed = time % 240; // goes back to 0 after 4mins/240sec
+        const minsPassed = Math.floor(time / 60); //seconds in a min 
+        const secPassed = time % 240; // goes back to 0 after 4mins/240sec
         //gameclock works like: 4 mins = 1 hr
         // 4sec = 1/15 = 1min game time        
             this._mString = Math.floor(minsPassed / 1) ;
             this._sString = (secPassed / 1 < 10 ? "0" : "") + secPassed / 1;
         
-        let day = (this._mString == 11 ? " " : " ");
+        const day = (this._mString == 11 ? " " : " ");
         
         return ("0"+this._mString + ":" + this._sString + day);
     }
 
     public updateHud(): void {
         if(!this._stopTimer && this._startTime != null ){
-            let curTime = Math.floor((new Date().getTime() - this._startTime) / 10) + this._prevTime; // divide by 1000 to get seconds
+            const curTime = Math.floor((new Date().getTime() - this._startTime) / 10) + this._prevTime; // divide by 1000 to get seconds
 
             this.time = curTime; //keeps track of the total time elapsed in seconds
             this._clockTime.text = this._formatTime(curTime);
@@ -277,7 +280,5 @@ export class UI {
     glass.reflectivityColor = new Color3(0.2, 0.2, 0.2);
     glass.albedoColor = new Color3(0.95, 0.95, 0.95);
     this.box.material = glass
-  }
-    
-
+  } 
 }
