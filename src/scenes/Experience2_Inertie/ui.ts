@@ -1,11 +1,7 @@
 import { 
     Scene, 
-    MeshBuilder, 
-    Color3, 
-    PBRMaterial 
 } from "@babylonjs/core";
 import * as GUI from '@babylonjs/gui/2D';
-import { Image } from "babylonjs-gui";
 import { Environement } from "./Environement";
 
 

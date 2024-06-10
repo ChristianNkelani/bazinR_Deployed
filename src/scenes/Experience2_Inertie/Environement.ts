@@ -1,7 +1,6 @@
 import {
     Scene, 
     Engine, 
-    MeshBuilder, 
     SceneLoader, 
     Vector3,
     CannonJSPlugin,
@@ -9,8 +8,6 @@ import {
 
 import "@babylonjs/loaders";
 import * as CANNON from "cannon";
-import * as GUI from '@babylonjs/gui/2D';
-import { Animation } from "babylonjs";
 import { UI } from "./ui";
 
 
@@ -18,8 +15,8 @@ export class Environement {
 
 scene: Scene;
 engine : Engine;
-ball1 : any;
-ball2 : any;
+// ball1 : any;
+// ball2 : any;
 cliquer=true;//variable pour activer impostor ou non
 private _ui:UI;
 

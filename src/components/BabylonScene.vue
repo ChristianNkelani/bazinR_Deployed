@@ -1,6 +1,9 @@
 <template>
   <main>
     <LoadingScreen :isLoaded="loaded" />
+    <!-- <div id="card" class="w-1/3 h-96 bg-red-600 absolute top-1/3 left-1/3">
+      jhfdshjfds
+    </div> -->
     <canvas></canvas>
   </main>
   <RouterLink to="/categorie">Retour</RouterLink>
@@ -21,6 +24,7 @@ export default defineComponent({
   components : { LoadingScreen },
   mounted(){
     const canvas= document.querySelector('canvas') as HTMLCanvasElement;
+    document.querySelector('#card')
     new Experience1(canvas, this.setLoaded );
   },
   methods: {
