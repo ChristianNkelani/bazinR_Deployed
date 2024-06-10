@@ -25,7 +25,7 @@ export class Environement {
   ball1 : any;
   ball2 : any;
   cliquer=true;//variable pour activer impostor ou non
-  private _ui:UI;
+  public _ui:UI;
 
   constructor(
     scene:Scene, engine:Engine,
@@ -37,6 +37,18 @@ export class Environement {
 
     //on charge les autres interfaces
     this._ui = new UI(this.scene);  
+    // this._ui.startTimer();
+    this.scene.onBeforeRenderObservable.add(() => {
+      // when the game isn't paused, update the timer
+      
+          this._ui.updateHud();
+          // if(this.ball1.position.y<=0.78){
+          //   this._ui.stopTimer();
+          // }
+          console.log(this.ball1.position._y);
+          
+      
+  });
 
     this.scene.enablePhysics(
       new Vector3(0,-9.81, 0), 
@@ -152,11 +164,16 @@ export class Environement {
       this.ball2.scaling.y = value;
       this.ball2.scaling.z = value;
     })
+    
 
     this._ui._buttonAction[0].onPointerUpObservable.add(()=>{
       if(this.cliquer == true){
+        this._ui._stopTimer = false;
         this.createImpostor();
+    
+        this._ui.startTimer();
         this.cliquer = false;
+       
       }
     })
     this._ui._buttonAction[1].onPointerUpObservable.add(()=>{
@@ -177,6 +194,11 @@ export class Environement {
     this.ball2.diameter = 0.25
     this.ball2.physicsImpostor.dispose();
     this.cliquer=true;
+    this._ui._sString = "00";
+    this._ui._mString = 0;
+    this._ui.time = 0;
+    // this._ui._stopTimer = false;
+    this._ui._clockTime.text = "00:00";
     
   }
 } 
