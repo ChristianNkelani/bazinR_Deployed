@@ -1,0 +1,20 @@
+Maintenant,         observez bien l'environnement.
+Sur la table d'expérience, il y a, deux statifs gradués et deux balles.
+Dont l'une rouge et l'autre jaune.
+
+
+En haut à gauche, nous avons un menu paramètres, qui va nous permettre de modifier certains paramètres comme les masses de différentes balles par exemple.
+
+
+Et en haut à droite, nous avons deux boutons, l'une Play et l'autre restart. 
+Le bouton Play  nous permettra de lancer une simulation et le bouton restart quant à lui, nous permettra de recommencer une simulation.
+
+Enfin tout au milieu en haut, nous avons un chronomètre, qui va nous permettre de chronometrer nos simulations.
+
+
+La présentation de notre environnement terminée, passons sans plus tarder à notre première simulation.
+
+Pour ça, veuillez cliquer sur suivant.
+
+
+

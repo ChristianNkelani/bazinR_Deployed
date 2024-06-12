@@ -12,7 +12,8 @@
     //     "es6"
     // ],
     "rootDir": "src",
-
+    
+    "preserveConstEnums":true,
 
     "target": "es5",
     "module": "esnext",
@@ -57,7 +58,7 @@
   "exclude": [
     "node_modules"
   ],
-  "typeRoots":[
-    "node_modules/ammojs-typed/ammo/ambient"
-  ]
+  // "typeRoots":[
+  //   "node_modules/ammojs-typed/ammo/ambient"
+  // ]
 }

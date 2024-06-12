@@ -1,9 +1,7 @@
 import { Scene, MeshBuilder, Color3, PBRMaterial } from "@babylonjs/core";
 import * as GUI from '@babylonjs/gui/2D';
-import { Player } from "./Player";
 
 export class UI {
-    private _player:Player;
     public _scene:Scene;
     public _sliders:any;
     public _materials:any;
@@ -31,8 +29,6 @@ export class UI {
         this.createMenu();
         //menu action
         this.createButtonActionMenu();
-        //instance of player
-        this._player = new Player();
 
         //create the texture 
         const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI', undefined);        

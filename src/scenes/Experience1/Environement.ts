@@ -8,14 +8,16 @@ import {
         Vector3,
         CannonJSPlugin,
         PhysicsImpostor,
-        PBRMaterial
+        PBRMaterial,
+        Sound,
+        OimoJSPlugin,
+        AmmoJSPlugin
 } from "@babylonjs/core";
 
 import "@babylonjs/loaders";
 import * as CANNON from "cannon";
-import { AdvancedDynamicTexture, Button, Control, Image, Rectangle, StackPanel, TextBlock } from "babylonjs-gui";
-import * as GUI from '@babylonjs/gui/2D';
 import { UI } from "./ui";
+import { Interaction } from "./interaction";
 
 
 export class Environement {
@@ -24,6 +26,11 @@ export class Environement {
   engine : Engine;
   ball1 : any;
   ball2 : any;
+  physicEngine:any;
+  private _Interaction: Interaction;
+
+
+  gravZ:any;
   cliquer=true;//variable pour activer impostor ou non
   public _ui:UI;
 
@@ -37,28 +44,21 @@ export class Environement {
 
     //on charge les autres interfaces
     this._ui = new UI(this.scene);  
-    // this._ui.startTimer();
+
     this.scene.onBeforeRenderObservable.add(() => {
       // when the game isn't paused, update the timer
-      
-          this._ui.updateHud();
-          // if(this.ball1.position.y<=0.78){
-          //   this._ui.stopTimer();
-          // }
-          console.log(this.ball1.position._y);
-          
-          
-      
-  });
+      this._ui.updateHud();
+    });
 
-    this.scene.enablePhysics(
-      new Vector3(0,-2, 0), 
-      new CannonJSPlugin(true,10,CANNON)
-    );
+    //enable physics
+    this.createGravity();
 
-    //the engine
-    this.engine = engine;
 
+    //create  
+    this._Interaction = new Interaction();
+    this._Interaction.Accueil(this.scene);
+
+   
     //creation des materiels
     this.importLaboratoire();
     this.createMateriels();
@@ -133,7 +133,7 @@ export class Environement {
     ground.physicsImpostor = new PhysicsImpostor(
       ground,
       PhysicsImpostor.BoxImpostor,
-      { mass: 0, restitution: 0.5}
+      { mass: 0, restitution: 0}
     )
     ground.isVisible = false
   }
@@ -146,7 +146,7 @@ export class Environement {
     ground.physicsImpostor = new PhysicsImpostor(
       ground,
       PhysicsImpostor.BoxImpostor,
-      { mass: 0, restitution: 0.5}
+      { mass: 0, restitution: 0}
     )
     ground.isVisible = false
   }
@@ -175,9 +175,16 @@ export class Environement {
        
       }
     })
+
+    this._ui._sliders[2].onPointerUpObservable.add(() => {
+      this.physicEngine.setGravity(new Vector3(0,-(this._ui._sliders[2].value),0))
+    });
+
     this._ui._buttonAction[1].onPointerUpObservable.add(()=>{
       this.toRestart();
     })
+
+    this.actionGroupSlider();
   }
   toRestart(){
     this.ball2.position.y = 2.5;
@@ -198,6 +205,48 @@ export class Environement {
     this._ui.time = 0;
     // this._ui._stopTimer = false;
     this._ui._clockTime.text = "00:00";
+    
+  }
+
+  async createGravity(){
+    // const ammo = await Ammo()
+    // let physics: AmmoJSPlugin = new AmmoJSPlugin(true, ammo)
+    this.scene.enablePhysics(null, new CannonJSPlugin(true,10,CANNON));
+    this.physicEngine = this.scene.getPhysicsEngine();
+
+  }
+
+  actionGroupSlider(){
+    var displayValue = function(value){
+      return Math.floor(value*100)/100;
+    }
+
+    const ball1 = this.ball1;
+    const ball2 = this.ball2;
+
+    var setBall1 = function(this: any,value){
+      ball1.scaling.x = value;
+      ball1.scaling.y = value;
+      ball1.scaling.z = value;
+    }
+
+    var setBall2 = function(this: any,value){
+      ball2.scaling.x = value;
+      ball2.scaling.y = value;
+      ball2.scaling.z = value;
+    }
+
+
+    const physicEngine = this.physicEngine;
+    var setGravitaion = function(value){
+      physicEngine.setGravity(new Vector3(0,-(value),0))
+    }
+    this._ui.groupSliders[0].addSlider("Gravitation",setGravitaion,"m/s2",0,15,9.81,displayValue);
+    this._ui.groupSliders[0].addSlider("Masse balle jaune",setBall1,"Kg",1,2,1,displayValue);
+    this._ui.groupSliders[0].addSlider("Masse balle rouge",setBall2,"Kg",1,2,1,displayValue);
+
+    this._ui.groupSliders[1].addCheckbox("Chambre à vide")
+
     
   }
 } 

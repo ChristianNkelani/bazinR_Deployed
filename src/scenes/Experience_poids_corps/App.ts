@@ -10,7 +10,6 @@ import {
 import "@babylonjs/loaders";
 import { UI } from "./ui";
 import { Environement } from "./Environement";
-import { Player } from "./Player";
 
 export class Experience3 {
 

@@ -5,7 +5,9 @@ import Categorie from '@/pages/Categorie.vue';
 import Experience from '@/pages/Experience.vue'
 import BabylonScene from '@/components/BabylonScene.vue';
 import inertie from '@/components/inertie.vue';
+import poids_corps from '@/components/poids_corps.vue';
 import PFD from '@/components/PFD.vue';
+import element_base_cinematique from '@/components/element_base_cinematique.vue';
 
 const routes = [
   { path: '/', component: Home },
@@ -16,6 +18,9 @@ const routes = [
   {path : '/3', component : BabylonScene},
   {path : '/5', component : inertie},
   {path : '/6', component : PFD},
+  {path : '/4', component : poids_corps},
+  {path : '/1', component : element_base_cinematique},
+
 ]
 
 const router = createRouter({

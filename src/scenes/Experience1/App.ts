@@ -10,14 +10,15 @@ import {
 import "@babylonjs/loaders";
 import { UI } from "./ui";
 import { Environement } from "./Environement";
-import { Player } from "./Player";
-
+import { Sound } from "babylonjs";
+import { Interaction } from "./interaction";
 export class Experience1 {
 
   scene: Scene;
   engine: Engine;
 
   private _ui: UI;
+  private _Interaction: Interaction;
   private _environement: Environement;
 
   constructor(
@@ -27,12 +28,16 @@ export class Experience1 {
 
     this.engine = new Engine(this.canvas);
 
+
     //on cree la scene de base
     this.scene = this.CreateScene();
-
+    
     //on charge l environnement
     this._environement = new Environement(this.scene, this.engine, this.setLoaded);
 
+
+    
+    
     this.engine.runRenderLoop(()=>{
       this.scene.render();
       if(this._environement.ball1.position._y <= 0.82  ){
