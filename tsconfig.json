@@ -12,7 +12,8 @@
     //     "es6"
     // ],
     "rootDir": "src",
-
+    
+    "preserveConstEnums":true,
 
     "target": "es5",
     "module": "esnext",
@@ -32,6 +33,7 @@
     "baseUrl": ".",
     "types": [
       "webpack-env"
+      
     ],
     "paths": {
       "@/*": [
@@ -51,8 +53,13 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/scenes/Experience1.js"  ],
+, "src/scenes/Experience1.js",
+
+  ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  // "typeRoots":[
+  //   "node_modules/ammojs-typed/ammo/ambient"
+  // ]
 }

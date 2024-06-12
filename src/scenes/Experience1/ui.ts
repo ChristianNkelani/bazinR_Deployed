@@ -1,13 +1,11 @@
-import { Scene, MeshBuilder, Color3, PBRMaterial } from "@babylonjs/core";
+import { Scene, MeshBuilder, Color3, PBRMaterial, Sound } from "@babylonjs/core";
 import * as GUI from '@babylonjs/gui/2D';
-import { Player } from "./Player";
-import { Rectangle } from "babylonjs-gui";
 
 export class UI {
-    private _player:Player;
     public _scene:Scene;
     public _sliders:any;
     public _buttonAction:any;
+    public groupSliders:any;
 
     //Game Timer
     public time: number; //keep track to signal end game REAL TIME
@@ -17,7 +15,7 @@ export class UI {
     public _stopTimer: boolean;
     public _sString = "00";
     public _mString = 0;
-    public gravitation: any;
+    public gravitation: -9.8;
 
     public box :any;
     public textedynamique : string
@@ -29,8 +27,6 @@ export class UI {
         this.createMenu();
         //menu action
         this.createButtonActionMenu();
-        //instance of player
-        this._player = new Player();
 
         // creation de la chambre vide
         this.chambreVide()
@@ -50,8 +46,8 @@ export class UI {
         const container = new GUI.Container();
     
         container.background = "white"
-        container.width = "300px"
-        container.height=0.5
+        container.width = "250px"
+        container.height=0.4
     
         container.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
         container.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP
@@ -60,7 +56,7 @@ export class UI {
     
         // creation du texte
         const text = new GUI.TextBlock();
-        text.text = "Liste de Materiels"
+        text.text = "Menu"
         text.fontSize=30
         text.fontFamily="Montserrat Black"
         text.color ="deepskyblue"
@@ -143,15 +139,16 @@ export class UI {
         //slider for gravitation
         this._sliders[2] = new GUI.Slider();
         this._sliders[2].minimum = 0.2;
-        this._sliders[2].maximum = 11;
+        
+        this._sliders[2].maximum = 9.8;
         this._sliders[2].height = '20px'
         this._sliders[2].width = '200px'
-        this._sliders[2].value = 1;
         this._sliders[2].top = "170px"
         this._sliders[2].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
         this._sliders[2].left ="-10px"
        
         container.addControl(this._sliders[2])
+        container.isVisible = false;
 
         //text bille 2
         const textgravitation = new GUI.TextBlock();
@@ -166,6 +163,26 @@ export class UI {
     
         advancedTexture.addControl(container)
         // creation chronr
+
+        const selectbox= new GUI.SelectionPanel("sp");
+        selectbox.width=0.20;
+        selectbox.height = 0.5;
+        selectbox.left = "20px";
+        selectbox.paddingLeft = "15px"
+        selectbox.background = "white";
+        selectbox.top = "20px";
+        selectbox.setPadding("5px","5px","10px","5px");
+
+        selectbox.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+        selectbox.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        advancedTexture.addControl(selectbox);
+
+        this.groupSliders = [];
+        this.groupSliders[0] = new GUI.SliderGroup("Menu Paramètres");
+        selectbox.addGroup(this.groupSliders[0]);
+        this.groupSliders[1] = new GUI.CheckboxGroup("");
+        this.groupSliders[1].top = "10px";
+        selectbox.addGroup(this.groupSliders[1])
     
     }
 
@@ -281,5 +298,9 @@ export class UI {
     glass.reflectivityColor = new Color3(0.2, 0.2, 0.2);
     glass.albedoColor = new Color3(0.95, 0.95, 0.95);
     this.box.material = glass
+    this.box.isVisible = false;
   } 
+
+
+  
 }
