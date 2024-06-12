@@ -4,6 +4,7 @@ import * as GUI from '@babylonjs/gui/2D';
 
 export class Interaction{
     suivant:any;
+    groupCheck:any;
     
     Accueil(scene){
         //--SOUNDS--
@@ -26,8 +27,8 @@ export class Interaction{
 
     
         container.background = "gray"
-        container.width = "50%"
-        container.height="50%";
+        container.width = "33%"
+        container.height="33%";
         container.shadowColor = "black";
         container.shadowBlur = 5        
         container.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER
@@ -37,8 +38,8 @@ export class Interaction{
 
         //image personnage
         const image = new GUI.Image("personnage","./images/personnage/personnage.png");
-        image.width = "400px0";
-        image.height = "400px";
+        image.width = "210px";
+        image.height = "210px";
 
         container.addControl(image);
     
@@ -79,7 +80,7 @@ export class Interaction{
         texte.setPadding("5%","5%","10%","5%");
         texte.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
         texte.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-        texte.text = "Bonjour, et bienvenue sur bazinR!";
+        texte.text = "";
         container.addControl(texte);
 
 
@@ -90,12 +91,6 @@ export class Interaction{
             this.presentationAudio(scene)
         })
 
-      
-        
-
-        
-
-    
     }
 
     presentationAudio(scene){
@@ -146,7 +141,7 @@ export class Interaction{
         const textenv = new GUI.TextBlock("textenv", "L'ENVIRONNEMENT DE bazinR")
         textenv.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
         textenv.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        textenv.top = "-80px";
+        textenv.top = "-85                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              px";
         textenv.color = "white";
         textenv.textWrapping = GUI.TextWrapping.WordWrap;
         textenv.setPadding("10%","10%","10%","10%");
@@ -155,13 +150,16 @@ export class Interaction{
 
         //action suivant 
         this.suivant[1].onPointerUpObservable.add(() => {
-            this.etapesFunction("./sounds/experience1/etape1.mp3","du texte", scene,container);
+            
+            // this.etapesFunction("./sounds/experience1/etape1.mp3","du texte", scene,container);
+            this.questionForm("./sounds/experience1/etape1.mp3", "du texte",scene,container)
         })
         
 
     }
 
     etapesFunction(audio,message,scene,container){
+
         const start = new Sound("startSong", audio, scene, function () {
         }, {
             volume: 1,
@@ -170,15 +168,61 @@ export class Interaction{
         });
 
         //text presentation environnement
-        const textenv = new GUI.TextBlock("textenv", "un autre texte")
+        const textenv = new GUI.TextBlock("textenv", "1. Au menu paramètres, ajustez la taille et la masse des deux balles, de sorte que l'une d'entre elles soit plus grande que l'autre.")
         textenv.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
         textenv.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-        textenv.top = "-10px";
-        textenv.color = "white";
+        textenv.top = "20px";
+        textenv.color = "red";
         textenv.textWrapping = GUI.TextWrapping.WordWrap;
         textenv.setPadding("10%","10%","10%","10%");
         textenv.left = "23px";
         container.addControl(textenv);
 
+    }
+
+    questionForm(audio,message,scene,container){
+        const start = new Sound("startSong", audio, scene, function () {
+        }, {
+            volume: 1,
+            loop: false,
+            autoplay: true
+        });
+
+        //text presentation environnement
+        const textenv = new GUI.TextBlock("textenv", "1. Au menu paramètres, ajustez la taille et la masse des deux balles, de sorte que l'une d'entre elles soit plus grande que l'autre.")
+        textenv.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+        textenv.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+        textenv.top = "20px";
+        textenv.color = "red";
+        textenv.textWrapping = GUI.TextWrapping.WordWrap;
+        textenv.setPadding("10%","10%","10%","10%");
+        textenv.left = "23px";
+        container.addControl(textenv);
+
+
+
+        const selectbox= new GUI.SelectionPanel("sp");
+        selectbox.width=3;
+        selectbox.height = 0.5;
+        selectbox.left = "20px";
+        selectbox.paddingLeft = "15px"
+        selectbox.background = "white";
+        selectbox.top = "20px";
+        selectbox.setPadding("5px","5px","10px","5px");
+
+        selectbox.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+        selectbox.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        container.addControl(selectbox);
+
+        this.groupCheck = [];
+    
+        this.groupCheck[0] = new GUI.CheckboxGroup("");
+        this.groupCheck[0].top = "10px";
+        this.groupCheck[0].addCheckbox("Balle rouge")
+        this.groupCheck[0].addCheckbox("Balle jaune")
+
+
+        selectbox.addGroup(this.groupCheck[0])
+    
     }
 }
