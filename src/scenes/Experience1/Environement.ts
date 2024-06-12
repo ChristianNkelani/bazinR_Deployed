@@ -8,13 +8,10 @@ import {
         Vector3,
         CannonJSPlugin,
         PhysicsImpostor,
-        PBRMaterial
 } from "@babylonjs/core";
 
 import "@babylonjs/loaders";
 import * as CANNON from "cannon";
-import { AdvancedDynamicTexture, Button, Control, Image, Rectangle, StackPanel, TextBlock } from "babylonjs-gui";
-import * as GUI from '@babylonjs/gui/2D';
 import { UI } from "./ui";
 
 
@@ -30,6 +27,7 @@ export class Environement {
   constructor(
     scene:Scene, engine:Engine,
     private setLoaded: () => void,
+    private voirCard:()=> void
 
   ){
     //la scene
@@ -74,6 +72,7 @@ export class Environement {
     const labo = await SceneLoader.ImportMeshAsync("","./models/","laboratoire.glb", this.scene);
     // this.engine.hideLoadingUI();
     this.setLoaded();
+    this.voirCard();
     return labo;
   }
 

@@ -1,9 +1,11 @@
 <template>
   <main>
     <LoadingScreen :isLoaded="loaded" />
-    <!-- <div id="card" class="w-1/3 h-96 bg-red-600 absolute top-1/3 left-1/3">
+    <div id="card" class="w-1/3 h-96 bg-white absolute top-1/3 left-1/3 hidden">
       jhfdshjfds
-    </div> -->
+
+      <button @click="cacherCard" class="bg-blue-600">Fermer</button>
+    </div>
     <canvas></canvas>
   </main>
   <RouterLink to="/categorie">Retour</RouterLink>
@@ -24,13 +26,19 @@ export default defineComponent({
   components : { LoadingScreen },
   mounted(){
     const canvas= document.querySelector('canvas') as HTMLCanvasElement;
-    document.querySelector('#card')
-    new Experience1(canvas, this.setLoaded );
+    new Experience1(canvas, this.setLoaded, this.voirCard );
+
   },
   methods: {
     setLoaded() {
       this.loaded = true;
     },
+    voirCard(){
+      document.querySelector('#card').classList.remove('hidden');
+    },
+    cacherCard(){
+      document.querySelector('#card').classList.add('hidden');
+    }
   },
 });
 </script>

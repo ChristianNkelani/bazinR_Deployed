@@ -19,6 +19,7 @@ export class Experience3 {
     constructor(
     private canvas:HTMLCanvasElement,
     private setLoaded: () => void,
+    private voirCard:()=>void
 ){
 
     this.engine = new Engine(this.canvas);
@@ -27,7 +28,7 @@ export class Experience3 {
     this.scene = this.CreateScene();
 
     //on charge l environnement
-    this._environement = new Environement(this.scene, this.engine, this.setLoaded);
+    this._environement = new Environement(this.scene, this.engine, this.setLoaded,this.voirCard);
 
     this.engine.runRenderLoop(()=>{
     this.scene.render();
@@ -36,10 +37,10 @@ export class Experience3 {
 
 CreateScene():Scene {
     const scene = new Scene(this.engine);
-    const camera = new UniversalCamera("camera", new Vector3(0,3.5,-2.5), this.scene );
+    const camera = new UniversalCamera("camera", new Vector3(2,2,-1.5), this.scene );
     camera.speed = 0.5;
-    camera.rotation._y = Math.PI/2;
-    camera.rotation._x= Math.PI/14;
+    camera.rotation._y = -Math.PI/2;
+    camera.rotation._x= Math.PI/8;
     camera.attachControl();
     const hemiLight = new HemisphericLight("hemiLight", new Vector3(0,1,0), this.scene);
     hemiLight.intensity = 1;
