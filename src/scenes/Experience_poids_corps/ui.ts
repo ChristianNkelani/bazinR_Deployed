@@ -7,6 +7,7 @@ export class UI {
     public _materials:any;
     public _buttonAction:any;
     public _textMasse:any;
+    groupSliders:any;
 
 
     //Game Timer
@@ -178,10 +179,11 @@ export class UI {
         container2.left = "10px"
     
         advancedTexture.addControl(container2)
-
+        container1.isVisible = false;
         this.createMenuMats(container1);
         this.createMenuCalculs(container2);
         this.textMassses(container2);
+        this.createNewMenuMat(advancedTexture);
     }
 
     createButtonActionMenu(){
@@ -358,6 +360,28 @@ export class UI {
 
     }
 
+    createNewMenuMat(advancedTexture){
+        const selectbox= new GUI.SelectionPanel("sp");
+        selectbox.width=0.20;
+        selectbox.height = 0.4;
+        selectbox.left = "20px";
+        selectbox.paddingLeft = "15px"
+        selectbox.background = "white";
+        selectbox.top = "20px";
+        selectbox.setPadding("5px","5px","10px","5px");
+
+        selectbox.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+        selectbox.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        advancedTexture.addControl(selectbox);
+
+        this.groupSliders = [];
+        this.groupSliders[0] = new GUI.SliderGroup("Menu Paramètres");
+        selectbox.addGroup(this.groupSliders[0]);
+        this.groupSliders[1] = new GUI.CheckboxGroup("");
+        this.groupSliders[1].top = "10px";
+        selectbox.addGroup(this.groupSliders[1])
+     
+    }
   
     
 

@@ -27,6 +27,7 @@ export class Environement {
   boitiers: any;
   cliquer=true;//variable pour activer impostor ou non
   public _ui:UI;
+  physicEngine:any;
   wheelFI:any;
 
   constructor(
@@ -65,16 +66,33 @@ export class Environement {
 
   //action des sliders
   this.actionButtonMenu();  
+  //creategravity
+  this.createGravity();
+  //action slider
+  this.actionGroupSlider();
 
 
 
   }
 
   async importLaboratoire(){
-  const labo = await SceneLoader.ImportMeshAsync("","./models/","laboratoire.glb", this.scene);
-  this.setLoaded();
+    const labo = await SceneLoader.ImportMeshAsync("","./models/","laboratoire.glb", this.scene);
+    this.setLoaded();
     console.log(labo.meshes)
-  return labo;
+    labo.meshes[10].isVisible = false;
+    labo.meshes[11].isVisible = false;
+    labo.meshes[14].isVisible = false;
+    labo.meshes[20].isVisible = false;
+    labo.meshes[19].isVisible = false;
+    labo.meshes[18].isVisible = false;
+    labo.meshes[17].isVisible = false;
+    labo.meshes[16].isVisible = false;
+    labo.meshes[15].isVisible = false;
+    // labo.meshes[11].isVisible = false;
+
+
+
+    return labo;
   }
 
   createMateriels(){
@@ -146,39 +164,27 @@ export class Environement {
   }
 
   actionButtonMenu(){
-  this._ui._sliders[0].onValueChangedObservable.add((value)=>{
-    this.boitiers[0].scaling.x = value;
-    this.boitiers[0].scaling.y = value;
-    this.boitiers[0].scaling.z = value;
-    this._ui._textMasse[0].text = "m1 = " +this._ui._sliders[0].value+" kg";
-    this._ui._textMasse[3].text = "m12 = "+(this._ui._sliders[0].value+this._ui._sliders[1].value)+" kg";
-
-  })
-
-  this._ui._sliders[1].onValueChangedObservable.add((value)=>{
-    this.boitiers[1].scaling.x = value;
-    this.boitiers[1].scaling.y = value;
-    this.boitiers[1].scaling.z = value.toPrecision(1);
-    this._ui._textMasse[1].text = "m2 = " +this._ui._sliders[1].value+" kg";
-    this._ui._textMasse[3].text = "m12 = "+(this._ui._sliders[0].value+this._ui._sliders[1].value)+" kg";
-
-  })
-
-
   this._ui._buttonAction[0].onPointerUpObservable.add(()=>{
     if(this.cliquer == true){
-      this.scene.registerAfterRender(() => {
-        this.wheelFI.rotate(Axis.X, Math.PI/2, Space.WORLD); 
-    
-    });      
-    this.createImpulse();
+           
+      this.createImpulse();
       this._ui._stopTimer = false;
 
       this._ui.startTimer();
       this.cliquer = false;
     
     }
+
+    
   })
+
+  this.scene.registerAfterRender(() => {
+    if(this.cliquer !== true){
+      this.wheelFI.rotate(Axis.X, Math.PI/2, Space.WORLD); 
+    }
+  }); 
+
+
   this._ui._buttonAction[1].onPointerUpObservable.add(()=>{
     this.toRestart();
   })
@@ -227,9 +233,6 @@ export class Environement {
   }
 
 
-  createLines(){
-    // const line1 = MeshBuilder.CreateLines('l1',{points: })
-  }
 
   createMotor(){
 
@@ -291,9 +294,47 @@ export class Environement {
 
 
 
-  
-const rotateframes = [];
-    const fps = 60;
+  }
+
+  actionGroupSlider(){
+    const displayValue = function(value){
+      return Math.floor(value*100)/100;
+    }
+
+    const ball1 = this.boitiers[0];
+    const ball2 = this.boitiers[1];
+
+    const setBall1 = function(this: any,value){
+      ball1.scaling.x = value;
+      ball1.scaling.y = value;
+      ball1.scaling.z = value;
+    }
+
+    const setBall2 = function(this: any,value){
+      ball2.scaling.x = value;
+      ball2.scaling.y = value;
+      ball2.scaling.z = value;
+    }
+
+
+    const physicEngine = this.physicEngine;
+    const setGravitaion = function(value){
+      physicEngine.setGravity(new Vector3(0,-(value),0))
+    }
+    this._ui.groupSliders[0].addSlider("Gravitation",setGravitaion,"m/s2",0,15,9.81,displayValue);
+    this._ui.groupSliders[0].addSlider("Masse balle jaune",setBall1,"Kg",1,2,1,displayValue);
+    this._ui.groupSliders[0].addSlider("Masse balle rouge",setBall2,"Kg",1,2,1,displayValue);
+
+    this._ui.groupSliders[1].addCheckbox("Chambre à vide")
+
+    
+  }
+
+  async createGravity(){
+    // const ammo = await Ammo()
+    // let physics: AmmoJSPlugin = new AmmoJSPlugin(true, ammo)
+    this.scene.enablePhysics(null, new CannonJSPlugin(true,10,CANNON));
+    this.physicEngine = this.scene.getPhysicsEngine();
 
   }
 
