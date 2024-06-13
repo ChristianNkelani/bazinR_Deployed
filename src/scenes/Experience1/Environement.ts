@@ -8,13 +8,10 @@ import {
         Vector3,
         CannonJSPlugin,
         PhysicsImpostor,
-<<<<<<< HEAD
-=======
         PBRMaterial,
         Sound,
         OimoJSPlugin,
         AmmoJSPlugin
->>>>>>> 323a9c3796422c831f0884c0bcdaeb89caa371ff
 } from "@babylonjs/core";
 
 import "@babylonjs/loaders";
@@ -40,7 +37,6 @@ export class Environement {
   constructor(
     scene:Scene, engine:Engine,
     private setLoaded: () => void,
-    private voirCard:()=> void
 
   ){
     //la scene
@@ -77,7 +73,6 @@ export class Environement {
   async importLaboratoire(){
     const labo = await SceneLoader.ImportMeshAsync("","./models/","laboratoire.glb", this.scene);
     this.setLoaded();
-    this.voirCard();
     return labo;
   }
 
