@@ -24,7 +24,6 @@ export class Experience1 {
   constructor(
     private canvas:HTMLCanvasElement,
     private setLoaded: () => void,
-    private voircard: () => void,
   ){
 
     this.engine = new Engine(this.canvas);
@@ -34,7 +33,7 @@ export class Experience1 {
     this.scene = this.CreateScene();
     
     //on charge l environnement
-    this._environement = new Environement(this.scene, this.engine, this.setLoaded,this.voircard);
+    this._environement = new Environement(this.scene, this.engine, this.setLoaded);
 
 
     

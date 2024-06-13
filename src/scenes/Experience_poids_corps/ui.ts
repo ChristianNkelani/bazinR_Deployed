@@ -67,7 +67,7 @@ export class UI {
 
         // creation de la bille
         const bille = GUI.Checkbox.AddCheckBoxWithHeader('Bille ',(value)=>{
-            console.log('bille');  
+            // console.log('bille');  
         })
         bille.children[1].color = 'black'
         bille.verticalAlignment=GUI.Control.VERTICAL_ALIGNMENT_TOP

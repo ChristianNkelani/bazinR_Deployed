@@ -37,7 +37,6 @@ export class Environement {
   constructor(
     scene:Scene, engine:Engine,
     private setLoaded: () => void,
-    private voirCard:()=> void
 
   ){
     //la scene
@@ -74,7 +73,6 @@ export class Environement {
   async importLaboratoire(){
     const labo = await SceneLoader.ImportMeshAsync("","./models/","laboratoire.glb", this.scene);
     this.setLoaded();
-    this.voirCard();
     return labo;
   }
 

@@ -7,7 +7,11 @@ import {
     Color3,
     Vector3,
     PhysicsImpostor,
-    CannonJSPlugin
+    CannonJSPlugin,
+    Texture,
+    Vector4,
+    Axis,
+    Space
 } from "@babylonjs/core";
 
 import "@babylonjs/loaders";
@@ -23,6 +27,7 @@ export class Environement {
   boitiers: any;
   cliquer=true;//variable pour activer impostor ou non
   public _ui:UI;
+  wheelFI:any;
 
   constructor(
   scene:Scene, engine:Engine,
@@ -39,7 +44,7 @@ export class Environement {
     // when the game isn't paused, update the timer
     
         this._ui.updateHud();
-        console.log(this.boitiers[0].position._y);
+        // console.log(this.boitiers[0].position._y);
   });
 
   this.scene.enablePhysics(
@@ -68,7 +73,7 @@ export class Environement {
   async importLaboratoire(){
   const labo = await SceneLoader.ImportMeshAsync("","./models/","laboratoire.glb", this.scene);
   this.setLoaded();
-
+    console.log(labo.meshes)
   return labo;
   }
 
@@ -162,7 +167,11 @@ export class Environement {
 
   this._ui._buttonAction[0].onPointerUpObservable.add(()=>{
     if(this.cliquer == true){
-      this.createImpulse();
+      this.scene.registerAfterRender(() => {
+        this.wheelFI.rotate(Axis.X, Math.PI/2, Space.WORLD); 
+    
+    });      
+    this.createImpulse();
       this._ui._stopTimer = false;
 
       this._ui.startTimer();
@@ -243,27 +252,48 @@ export class Environement {
     cylinder.position.z = -5;
     cylinder.rotation.z = Math.PI/2;
 
-    //create cylinder
-    const cylinder1 = MeshBuilder.CreateCylinder("c2",{height:0.1, diameter:0.3}, this.scene);
-    cylinder1.position.y = 1;
-    cylinder1.position.x = 7.1;
-    cylinder1.position.z = -5;
-    cylinder1.rotation.z = Math.PI/2;
-    cylinder1.material = this.changeMaterialColor(155,0,0);
+    
+    this.createAnimation();
 
-    cylinder1.physicsImpostor = new PhysicsImpostor(
-      cylinder1,
-      PhysicsImpostor.CylinderImpostor,
-      {mass: 1, friction: 0}
-    );
+  }
+
+  createAnimation():void{
+    	/*-----------------------Wheel------------------------------------------*/ 
+	
+	//Wheel Material 
+	var wheelMaterial = new StandardMaterial("wheel_mat");
+  var wheelTexture = new Texture("https://i.imgur.com/ZUWbT6L.png");
+  wheelMaterial.diffuseTexture = wheelTexture;
+
+  //Set color for wheel tread as black
+  var faceColors=[];
+  faceColors[1] = new Color3(0,0,0);
+
+  //set texture for flat face of wheel 
+  var faceUV =[];
+  faceUV[0] = new Vector4(0,0,1,1);
+  faceUV[2] = new Vector4(0,0,1,1);
+
+  //create wheel front inside and apply material
+  this.wheelFI = MeshBuilder.CreateCylinder("wheelFI", {diameter: 0.5, height: 0.1, tessellation: 24, faceColors:faceColors, faceUV:faceUV});
+  this.wheelFI.material = wheelMaterial;
+  this.wheelFI.position = new Vector3(7.1,1,-5)
+  
+    
+  //rotate wheel so tread in xz plane  
+  this.wheelFI.rotate(Axis.Z, Math.PI/2, Space.WORLD);
+  // wheelFI.parent = carBody;  
 
 
-    const bouger = () =>{
-      // cylinder1.physicsImpostor?.setDeltaRotation
-      cylinder1.physicsImpostor?.setAngularVelocity(new Vector3(3,0,0));
-    }
+/*-----------------------End Wheel------------------------------------------*/ 
 
-    this.scene.registerBeforeRender(bouger);
+/*------------Create other Wheels as Instances, Parent and Position----------*/
+
+
+
+  
+const rotateframes = [];
+    const fps = 60;
 
   }
 

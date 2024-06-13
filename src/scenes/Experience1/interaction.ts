@@ -150,15 +150,38 @@ export class Interaction{
 
         //action suivant 
         this.suivant[1].onPointerUpObservable.add(() => {
-            
-            // this.etapesFunction("./sounds/experience1/etape1.mp3","du texte", scene,container);
-            this.questionForm("./sounds/experience1/etape1.mp3", "du texte",scene,container)
+            container.isVisible = false;
+            start.pause();
+            this.etapesFunction("./sounds/experience1/etape1.mp3","du texte", scene,advancedTexture);
+            // this.questionForm("./sounds/experience1/etape1.mp3", "du texte",scene,container)
         })
         
 
     }
 
-    etapesFunction(audio,message,scene,container){
+    etapesFunction(audio,message,scene,advancedTexture){
+
+        const container = new GUI.Container("container");
+        container.width = "250px"
+        container.height=0.4
+        container.top = "-50px";
+        container.background = "white";
+        container.left = "25px";
+        container.background = "gray";
+    
+        container.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
+        container.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+        advancedTexture.addControl(container);
+
+        //image personnage
+        const image = new GUI.Image("personnage","./images/personnage/personnage.png");
+        image.width = "80px";
+        image.height = "80px";
+        image.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+        image.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        image.top = "5px";
+        image.left = "5px";
+        container.addControl(image);
 
         const start = new Sound("startSong", audio, scene, function () {
         }, {
@@ -177,10 +200,50 @@ export class Interaction{
         textenv.setPadding("10%","10%","10%","10%");
         textenv.left = "23px";
         container.addControl(textenv);
+
+        //creation button suivant
+
+        this.suivant[2] = GUI.Button.CreateSimpleButton("suivant","suivant");
+        this.suivant[2].width = "60px";
+        this.suivant[2].top = "-10px";
+        this.suivant[2].left = "-10px";
+        this.suivant[2].height = "30px";
+        this.suivant[2].background = "white";
+        this.suivant[2].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+        this.suivant[2].horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        container.addControl(this.suivant[2]);
+
+        this.suivant[2].onPointerUpObservable.add(()=>{
+            container.isVisible = false;
+            this.questionForm("./sounds/experience1/etape1.mp3", "du texte",scene,advancedTexture)
+        })
 
     }
 
-    questionForm(audio,message,scene,container){
+    questionForm(audio,message,scene,advancedTexture){
+        
+        const container = new GUI.Container("container");
+        container.width = "250px"
+        container.height=0.4
+        container.top = "-50px";
+        container.background = "white";
+        container.left = "25px";
+        container.background = "gray";
+    
+        container.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
+        container.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+        advancedTexture.addControl(container);
+
+        //image personnage
+        const image = new GUI.Image("personnage","./images/personnage/personnage.png");
+        image.width = "80px";
+        image.height = "80px";
+        image.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+        image.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        image.top = "5px";
+        image.left = "5px";
+        container.addControl(image);
+
         const start = new Sound("startSong", audio, scene, function () {
         }, {
             volume: 1,
@@ -199,12 +262,23 @@ export class Interaction{
         textenv.left = "23px";
         container.addControl(textenv);
 
+        //creation button suivant
+
+        this.suivant[2] = GUI.Button.CreateSimpleButton("suivant","suivant");
+        this.suivant[2].width = "60px";
+        this.suivant[2].top = "-10px";
+        this.suivant[2].left = "-10px";
+        this.suivant[2].height = "30px";
+        this.suivant[2].background = "white";
+        this.suivant[2].verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+        this.suivant[2].horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        container.addControl(this.suivant[2]);
 
 
         const selectbox= new GUI.SelectionPanel("sp");
-        selectbox.width=3;
+        selectbox.width=1;
         selectbox.height = 0.5;
-        selectbox.left = "20px";
+        selectbox.left = "0px";
         selectbox.paddingLeft = "15px"
         selectbox.background = "white";
         selectbox.top = "20px";
