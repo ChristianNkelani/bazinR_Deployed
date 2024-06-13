@@ -8,13 +8,10 @@ import {
         Vector3,
         CannonJSPlugin,
         PhysicsImpostor,
-<<<<<<< HEAD
-=======
         PBRMaterial,
         Sound,
         OimoJSPlugin,
         AmmoJSPlugin
->>>>>>> 323a9c3796422c831f0884c0bcdaeb89caa371ff
 } from "@babylonjs/core";
 
 import "@babylonjs/loaders";
@@ -222,20 +219,20 @@ export class Environement {
   }
 
   actionGroupSlider(){
-    var displayValue = function(value){
+    const displayValue = function(value){
       return Math.floor(value*100)/100;
     }
 
     const ball1 = this.ball1;
     const ball2 = this.ball2;
 
-    var setBall1 = function(this: any,value){
+    const setBall1 = function(this: any,value){
       ball1.scaling.x = value;
       ball1.scaling.y = value;
       ball1.scaling.z = value;
     }
 
-    var setBall2 = function(this: any,value){
+    const setBall2 = function(this: any,value){
       ball2.scaling.x = value;
       ball2.scaling.y = value;
       ball2.scaling.z = value;
@@ -243,7 +240,7 @@ export class Environement {
 
 
     const physicEngine = this.physicEngine;
-    var setGravitaion = function(value){
+    const setGravitaion = function(value){
       physicEngine.setGravity(new Vector3(0,-(value),0))
     }
     this._ui.groupSliders[0].addSlider("Gravitation",setGravitaion,"m/s2",0,15,9.81,displayValue);

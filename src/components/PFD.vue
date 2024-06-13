@@ -6,24 +6,28 @@
             <button @click="card++" class="bg-blue-500 w-64 text-md py-2 px-3 text-white">Commencer</button>
         </div>
         <div v-if="card==2" class="flex flex-col">
-            <div class="grid grid-cols-2 pt-5">
-                <div class="flex flex-col items-center h-72">
-                    <div class="w-10 h-10 bg-blue-800 rounded-full"></div>
-                    <p>Taille de la bille</p>
-                    <select name="" id="">
-                        <option value="">Petite</option>
-                        <option value="">Moyenne</option>
-                        <option value="">Grosse</option>
+            <div class="grid grid-cols-2 pt-16">
+                <div class="flex flex-col items-center h-64">
+                    <div class="h-16">
+                        <div class="bg-blue-800 rounded-full" :class="{'w-5 h-5':tailleB=='petite','w-10 h-10':tailleB=='moyenne','w-16 h-16':tailleB=='grosse'}"></div>
+                    </div>
+                    <span>Taille de la bille</span>
+                    <select name="" id="" v-model="tailleB" class="w-32 p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800">
+                        <option value="petite">Petite</option>
+                        <option value="moyenne">Moyenne</option>
+                        <option value="grosse">Grosse</option>
                     </select>
                 </div>
                 <div>
                     <div class="flex flex-col items-center">
-                        <div class="w-10 h-10 bg-red-800 rounded-full"></div>
-                        <p>Taille de la bille</p>
-                        <select name="" id="">
-                            <option value="">Petite</option>
-                            <option value="">Moyenne</option>
-                            <option value="">Grosse</option>
+                        <div class="h-16">
+                            <div class="bg-red-800 rounded-full" :class="{'w-5 h-5':tailleR=='petite','w-10 h-10':tailleR=='moyenne','w-16 h-16':tailleR=='grosse'}"></div>
+                        </div>
+                        <span>Taille de la bille</span>
+                        <select name="" id="" v-model="tailleR" class="w-32 p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-red-800">
+                            <option value="petite">Petite</option>
+                            <option value="moyenne">Moyenne</option>
+                            <option value="grosse">Grosse</option>
                         </select>
                     </div>
                 </div>
@@ -53,13 +57,15 @@
             return {
                 loaded : false,
                 flou : false,
-                card : 1
+                card : 1,
+                tailleR : 'moyenne',
+                tailleB : 'moyenne'
             }
         },
         components : {LoadingScreen},
         mounted(){
             const canvas = document.querySelector('canvas') as HTMLCanvasElement;
-            new Experience3(canvas, this.setLoaded,this.voirCard);
+            new Experience3(canvas, this.setLoaded,this.voirCard,this.tailleR,this.tailleB);
         },
         methods: {
             setLoaded(){

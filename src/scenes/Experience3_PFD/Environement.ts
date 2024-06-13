@@ -4,7 +4,9 @@ import {
     SceneLoader,
     MeshBuilder ,
     Vector3,
-    Animation
+    Animation,
+    StandardMaterial,
+    Color3
 } from "@babylonjs/core";
 
 import "@babylonjs/loaders";
@@ -17,13 +19,17 @@ export class Environement {
     engine : Engine;
     ball1 : any;
     ball2 : any;
+    vitesse : object;
+    taille : object;
     cliquer=true;//variable pour activer impostor ou non
     private _ui:UI;
 
 constructor(
 scene:Scene, engine:Engine,
 private setLoaded: () => void,
-private voirCard:()=>void
+private voirCard:()=>void,
+private tailleR : string,
+private tailleB : string
 
 ){
     //la scene
@@ -35,38 +41,43 @@ private voirCard:()=>void
     //the engine
     this.engine = engine;
     this.importLaboratoire();
-    this.createBalle();
-    // this.chrono(0);
 
+    this.createBalle();
+
+    this.vitesse = {
+        'petite':30,
+        'moyenne':40,
+        'grosse':50
+    };
+    // this.taille = {
+    //     'petite':0.1,
+    //     'moyenne':0.2,
+    //     'grosse':0.3
+    // };
 
 }
 
 async importLaboratoire(){
-    // this.engine.displayLoadingUI();
     const labo = await SceneLoader.ImportMeshAsync("","./experience3_PFD/","studio_test.glb", this.scene);
-    // this.engine.hideLoadingUI();
     this.setLoaded();
     this.voirCard();
-
-    // labo.meshes[1].isVisible = false;
-    // labo.meshes[1].position.y = 1.5
-    // labo.meshes[2].position.y = 1.5
-
-    // console.log(
-    //     labo.meshes[2].position.y, 
-    //     labo.meshes[2].position.x, 
-    //     labo.meshes[2].position.z 
-    // );
-    
     return labo;
 }
 public createBalle(){
-    this.ball1 = MeshBuilder.CreateSphere("ball1",{diameter:0.2});
+    const taille ={
+        'petite':0.1,
+        'moyenne':0.2,
+        'grosse' :0.3,
+    }
+
+    
+    this.ball1 = MeshBuilder.CreateSphere("ball1", {diameter : taille[this.tailleB]});
     this.ball1.position.y = 0.38;
     this.ball1.position.x = -1.3;
     this.ball1.position.z = -2.15;
-    // ball1.position.z = -2.92;
-
+    this.ball1.material = this.changeMaterialColor(0,0,255);
+    console.log(`la taille est ${taille[this.tailleB]}`);
+    
     this._ui._play.onPointerUpObservable.add(()=>{
         this.deplacer();
         this.deplacer2();
@@ -77,10 +88,13 @@ public createBalle(){
         this.ball2.position.z = -2.15;
     })
 
-    this.ball2 = MeshBuilder.CreateSphere("ball2",{diameter : 0.2})
+    this.ball2 = MeshBuilder.CreateSphere("ball2", {diameter : taille[this.tailleR]})
     this.ball2.position.y= 0.38;
     this.ball2.position.x= -1.9;
-    this.ball2.position.z = -2.15
+    this.ball2.position.z = -2.15;
+    this.ball2.diameter = taille[this.tailleR]
+    this.ball2.material = this.changeMaterialColor(255,0,0);
+
     
 }
 
@@ -92,7 +106,7 @@ public deplacer(){
         "anim", 
         this.ball1, 
         "position", 
-        50,
+        this.vitesse[this.tailleB],
         100,
         startPosition,
         endPosition,
@@ -107,12 +121,17 @@ public deplacer2(){
         "anim", 
         this.ball2, 
         "position", 
-        30,
+        this.vitesse[this.tailleR],
         100,
         startPosition,
         endPosition,
         Animation.ANIMATIONLOOPMODE_CONSTANT
     )
+}
+public changeMaterialColor(x,y,z):StandardMaterial{
+    const ballMat = new StandardMaterial("ballMat", this.scene);
+    ballMat.diffuseColor = new Color3(x,y,z)
+    return ballMat;
 }
 
 
