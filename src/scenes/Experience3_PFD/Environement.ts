@@ -42,18 +42,13 @@ private tailleB : string
     this.engine = engine;
     this.importLaboratoire();
 
-    this.createBalle();
 
     this.vitesse = {
-        'petite':30,
+        'petite':50,
         'moyenne':40,
-        'grosse':50
+        'grosse':30
     };
-    // this.taille = {
-    //     'petite':0.1,
-    //     'moyenne':0.2,
-    //     'grosse':0.3
-    // };
+
 
 }
 
@@ -63,7 +58,9 @@ async importLaboratoire(){
     this.voirCard();
     return labo;
 }
-public createBalle(){
+createBalle(a:string, b:string){
+    this.tailleB = a;
+    this.tailleR = b
     const taille ={
         'petite':0.1,
         'moyenne':0.2,
@@ -71,12 +68,12 @@ public createBalle(){
     }
 
     
-    this.ball1 = MeshBuilder.CreateSphere("ball1", {diameter : taille[this.tailleB]});
+    this.ball1 = MeshBuilder.CreateSphere("ball1", {diameter : taille[a]});
     this.ball1.position.y = 0.38;
     this.ball1.position.x = -1.3;
     this.ball1.position.z = -2.15;
     this.ball1.material = this.changeMaterialColor(0,0,255);
-    console.log(`la taille est ${taille[this.tailleB]}`);
+    console.log(`la taille est ${taille[a]}`);
     
     this._ui._play.onPointerUpObservable.add(()=>{
         this.deplacer();
@@ -88,7 +85,7 @@ public createBalle(){
         this.ball2.position.z = -2.15;
     })
 
-    this.ball2 = MeshBuilder.CreateSphere("ball2", {diameter : taille[this.tailleR]})
+    this.ball2 = MeshBuilder.CreateSphere("ball2", {diameter : taille[b]})
     this.ball2.position.y= 0.38;
     this.ball2.position.x= -1.9;
     this.ball2.position.z = -2.15;

@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="flex justify-center">
-                <button @click="cacherCard" class="bg-blue-500 w-64 text-md py-2 px-3 text-white">Continuer</button>
+                <button @click="continueExperience" class="bg-blue-500 w-64 text-md py-2 px-3 text-white">Continuer</button>
             </div>
         </div>
     </div>
@@ -59,13 +59,14 @@
                 flou : false,
                 card : 1,
                 tailleR : 'moyenne',
-                tailleB : 'moyenne'
+                tailleB : 'moyenne',
+                experience3 : null
             }
         },
         components : {LoadingScreen},
         mounted(){
             const canvas = document.querySelector('canvas') as HTMLCanvasElement;
-            new Experience3(canvas, this.setLoaded,this.voirCard,this.tailleR,this.tailleB);
+            this.experience3 = new Experience3(canvas, this.setLoaded,this.voirCard,this.tailleR,this.tailleB);
         },
         methods: {
             setLoaded(){
@@ -81,6 +82,12 @@
 
                 // gestion des flous
                 this.flou = false
+            },
+            continueExperience() {
+                this.cacherCard();
+                if (this.experience3) {
+                    this.experience3._environement.createBalle(this.tailleB, this.tailleR)
+                }
             }
         },
     })
