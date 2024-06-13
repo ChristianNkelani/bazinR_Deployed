@@ -183,7 +183,7 @@ export class UI {
         this.groupSliders[1] = new GUI.CheckboxGroup("");
         this.groupSliders[1].top = "10px";
         selectbox.addGroup(this.groupSliders[1])
-    
+     
     }
 
     createButtonActionMenu(){
