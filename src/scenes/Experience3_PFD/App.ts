@@ -14,7 +14,7 @@ export class Experience3 {
     engine: Engine;
 
     private _ui: UI;
-    private _environement: Environement;
+    public _environement: Environement;
 
     constructor(
     private canvas:HTMLCanvasElement,
